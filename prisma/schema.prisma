@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User ownership rule:
+// Every future Smart Kitchen app model must belong to a User.
+// Recipes, pantry items, meal history, and shopping lists should later include userId.
+// MVP scope is one Google user = one kitchen. No teams, organisations, roles, or shared households.
+
+model User {
+  id            String        @id @default(cuid())
+  name          String?
+  email         String?       @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  recipes       Recipe[]
+  ingredients   Ingredient[]
+  mealHistory   MealHistory[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.Text
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model Recipe {
+  id              String   @id @default(cuid())
+  userId          String
+  nameEs          String
+  nameEn          String?
+  slug            String
+  descriptionEs   String?
+  imageUrl        String?
+  caloriesPer100g Int?
+  proteinPer100g  Int?
+  carbsPer100g    Int?
+  fatPer100g      Int?
+  prepTimeMinutes Int?
+  difficulty      String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipeIngredients RecipeIngredient[]
+  mealHistory       MealHistory[]
+
+  @@unique([userId, slug])
+}
+
+model Ingredient {
+  id        String   @id @default(cuid())
+  userId    String
+  nameEs    String
+  nameEn    String?
+  category  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipeIngredients RecipeIngredient[]
+
+  @@unique([userId, nameEs])
+}
+
+model RecipeIngredient {
+  id           String  @id @default(cuid())
+  recipeId     String
+  ingredientId String
+  quantity     Float?
+  unit         String?
+  note         String?
+  sortOrder    Int?
+
+  recipe     Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+}
+
+model MealHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  recipeId  String
+  cookedAt  DateTime
+  note      String?
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+}
