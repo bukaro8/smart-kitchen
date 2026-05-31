@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
 const FALLBACK_AVATAR = "/images/dinosaur-avatar.svg";
@@ -14,7 +13,8 @@ export function UserAvatar({ src }: UserAvatarProps) {
   const imageSrc = src && src !== failedSrc ? src : FALLBACK_AVATAR;
 
   return (
-    <Image
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
       src={imageSrc}
       alt="Foto de perfil"
       width={44}
