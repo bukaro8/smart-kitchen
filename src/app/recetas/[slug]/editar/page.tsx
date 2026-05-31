@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { CreateRecipeForm } from "@/components/recipes/create-recipe-form";
+import { buttonSecondary, contentCard, pageHeader } from "@/lib/ui-styles";
 import { prisma } from "@/server/db";
 
 type EditRecipePageProps = {
@@ -76,6 +77,7 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
       nameEs: true,
       nameEn: true,
       descriptionEs: true,
+      imageUrl: true,
       caloriesPer100g: true,
       proteinPer100g: true,
       carbsPer100g: true,
@@ -108,7 +110,7 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
           </p>
           <Link
             href="/recetas"
-            className="mt-6 inline-flex min-h-12 items-center rounded-2xl bg-stone-950 px-5 text-base font-semibold text-white transition hover:bg-stone-800"
+            className={`${buttonSecondary} mt-6`}
           >
             Volver
           </Link>
@@ -120,10 +122,10 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
   return (
     <main className="min-h-dvh bg-[#fff8ef] pb-28 text-stone-950">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-5 py-5 sm:px-8 lg:px-10">
-        <header className="rounded-[1.75rem] bg-white/60 px-5 py-5 ring-1 ring-orange-100 sm:px-7 sm:py-6">
+        <header className={pageHeader}>
           <Link
             href={`/recetas/${slug}`}
-            className="mb-4 inline-flex min-h-11 items-center rounded-2xl border border-orange-100 bg-white/70 px-4 text-base font-semibold text-stone-700 transition hover:bg-white"
+            className={`${buttonSecondary} mb-4 min-h-12 px-4`}
           >
             Volver
           </Link>
@@ -135,7 +137,7 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
           </p>
         </header>
 
-        <section className="rounded-[2rem] bg-white/70 p-5 ring-1 ring-orange-100 sm:p-7">
+        <section className={contentCard}>
           <CreateRecipeForm
             mode="edit"
             initialValues={{
@@ -143,6 +145,7 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
               nameEs: recipe.nameEs,
               nameEn: recipe.nameEn,
               descriptionEs: recipe.descriptionEs,
+              imageUrl: recipe.imageUrl,
               caloriesPer100g: recipe.caloriesPer100g,
               proteinPer100g: recipe.proteinPer100g,
               carbsPer100g: recipe.carbsPer100g,

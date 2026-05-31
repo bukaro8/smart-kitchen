@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { auth } from "@/auth";
 import { GoogleSignInButton } from "@/components/auth/auth-actions";
+import { contentCard } from "@/lib/ui-styles";
 
 export default async function LoginPage() {
   const session = await auth();
@@ -13,7 +14,7 @@ export default async function LoginPage() {
 
   return (
     <main className="flex min-h-dvh items-center justify-center bg-[#fff8ef] px-5 py-8 text-stone-950">
-      <section className="w-full max-w-md rounded-[2rem] bg-white/80 p-5 shadow-sm ring-1 ring-orange-100 sm:p-7">
+      <section className={`w-full max-w-md ${contentCard} shadow-sm`}>
         <div className="mb-5 text-center">
           <Image
             src="/images/logo.svg"

@@ -4,6 +4,13 @@ import Link from "next/link";
 
 import { CookTodayButton } from "@/components/recipes/cook-today-button";
 import { DeleteRecipeButton } from "@/components/recipes/delete-recipe-button";
+import {
+  buttonDestructive,
+  buttonPrimary,
+  buttonSecondary,
+  contentCard,
+  recipeCard,
+} from "@/lib/ui-styles";
 
 const infoIcons = [Flame, Gauge, Timer, Utensils];
 
@@ -28,13 +35,13 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
         <Link
           href="/"
-          className="flex min-h-12 w-fit items-center gap-2 rounded-2xl bg-white/70 px-5 text-base font-semibold text-stone-700 ring-1 ring-orange-100 transition hover:bg-white hover:text-stone-950"
+          className={`${buttonSecondary} w-fit gap-2`}
         >
           <ArrowLeft size={20} aria-hidden="true" />
           Volver
         </Link>
 
-        <section className="relative overflow-hidden rounded-[2rem] bg-white shadow-md shadow-orange-950/5 ring-1 ring-orange-100">
+        <section className={`relative ${recipeCard}`}>
           <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
             <div className="absolute -right-16 -top-16 h-[150%] w-[82%] sm:-right-20 sm:w-[72%]">
               <Image
@@ -61,21 +68,21 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
                 </p>
               </div>
 
-              <div className="w-full rounded-[1.5rem] bg-white/72 p-3 ring-1 ring-orange-100/80 sm:max-w-md">
+              <div className="w-full rounded-[1.5rem] bg-white/78 p-3 shadow-sm ring-1 ring-orange-100/80 sm:max-w-md">
                 <CookTodayButton
                   recipeId={recipe.id}
-                  className="min-h-16 w-full rounded-2xl bg-emerald-700 px-8 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+                  className={`${buttonPrimary} min-h-16 w-full px-8 text-lg`}
                 />
                 <div className="mt-3 grid grid-cols-2 gap-3">
                   <Link
                     href={recipe.editHref}
-                    className="flex min-h-14 items-center justify-center rounded-2xl border border-stone-200 bg-white/85 px-4 text-center text-base font-semibold text-stone-700 transition hover:bg-white hover:text-stone-950"
+                    className={`${buttonSecondary} px-4 text-center`}
                   >
                     Editar receta
                   </Link>
                   <DeleteRecipeButton
                     recipeId={recipe.id}
-                    className="flex min-h-14 items-center justify-center rounded-2xl border border-red-100 bg-white/85 px-4 text-center text-base font-semibold text-red-700 transition hover:bg-red-50 hover:text-red-800"
+                    className={`${buttonDestructive} px-4 text-center`}
                   />
                 </div>
               </div>
@@ -104,7 +111,7 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
         </section>
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <section className="rounded-[2rem] bg-white/80 p-5 ring-1 ring-orange-100 sm:p-7">
+          <section className={contentCard}>
             <h2 className="text-2xl font-semibold">Ingredientes</h2>
             <div className="mt-5 space-y-3">
               {recipe.ingredients.map((ingredient) => (
@@ -121,7 +128,7 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white/80 p-5 ring-1 ring-orange-100 sm:p-7">
+          <section className={contentCard}>
             <h2 className="text-2xl font-semibold">Pasos</h2>
             <ol className="mt-5 space-y-4">
               {recipe.steps.map((step, index) => (

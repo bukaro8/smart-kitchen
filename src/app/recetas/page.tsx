@@ -5,6 +5,12 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { LoadStarterRecipesButton } from "@/components/recipes/load-starter-recipes-button";
+import {
+  buttonPrimary,
+  buttonSecondary,
+  pageHeader,
+  recipeCard,
+} from "@/lib/ui-styles";
 import { prisma } from "@/server/db";
 
 const filters = [
@@ -41,7 +47,7 @@ export default async function RecipesPage() {
   return (
     <main className="min-h-dvh bg-[#fff8ef] pb-28 text-stone-950">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-5 py-5 sm:px-8 lg:px-10">
-        <header className="rounded-[1.75rem] bg-white/60 px-5 py-5 ring-1 ring-orange-100 sm:px-7 sm:py-6">
+        <header className={pageHeader}>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h1 className="text-3xl font-semibold tracking-normal text-stone-950 sm:text-4xl">
@@ -53,7 +59,7 @@ export default async function RecipesPage() {
             </div>
             <Link
               href="/recetas/nueva"
-              className="flex min-h-14 w-fit items-center rounded-2xl bg-emerald-700 px-6 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800"
+              className={`${buttonPrimary} w-fit text-lg`}
             >
               Añadir receta
             </Link>
@@ -82,7 +88,7 @@ export default async function RecipesPage() {
             {recipes.map((recipe, index) => (
               <article
                 key={recipe.slug}
-                className="overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-md shadow-orange-950/5"
+                className={recipeCard}
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-orange-50">
                   <Image
@@ -154,7 +160,7 @@ export default async function RecipesPage() {
 
                   <Link
                     href={`/recetas/${recipe.slug}`}
-                    className="flex min-h-14 items-center justify-center rounded-2xl bg-stone-950 px-4 text-base font-semibold text-white transition hover:bg-stone-800"
+                    className={`${buttonSecondary} w-full`}
                   >
                     Ver receta
                   </Link>

@@ -7,6 +7,7 @@ import {
   loadStarterRecipes,
   type LoadStarterRecipesState,
 } from "@/app/actions/starter-recipes";
+import { buttonPrimary } from "@/lib/ui-styles";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -15,7 +16,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="mt-5 min-h-14 rounded-2xl bg-emerald-700 px-6 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+      className={`${buttonPrimary} mt-5 text-lg`}
     >
       {pending ? "Cargando..." : "Cargar recetas iniciales"}
     </button>

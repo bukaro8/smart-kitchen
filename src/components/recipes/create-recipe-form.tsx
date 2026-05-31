@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 
@@ -8,12 +9,14 @@ import {
   type CreateRecipeState,
   updateRecipe,
 } from "@/app/actions/recipes";
+import { buttonPrimary, fieldInput, fieldTextarea } from "@/lib/ui-styles";
 
 export type RecipeFormValues = {
   recipeId?: string;
   nameEs?: string;
   nameEn?: string | null;
   descriptionEs?: string | null;
+  imageUrl?: string | null;
   caloriesPer100g?: number | null;
   proteinPer100g?: number | null;
   carbsPer100g?: number | null;
@@ -30,7 +33,7 @@ function SubmitButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="min-h-14 rounded-2xl bg-emerald-700 px-6 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+      className={`${buttonPrimary} text-lg`}
     >
       {pending ? "Guardando..." : label}
     </button>
@@ -59,7 +62,7 @@ function Field({
         required={required}
         min={type === "number" ? 0 : undefined}
         defaultValue={defaultValue ?? ""}
-        className="min-h-14 w-full rounded-2xl border border-orange-100 bg-white/80 px-4 text-lg text-stone-950 outline-none transition focus:border-orange-300 focus:ring-4 focus:ring-orange-100"
+        className={fieldInput}
       />
     </label>
   );
@@ -77,7 +80,7 @@ export function CreateRecipeForm({
   const [state, formAction] = useActionState(action, initialState);
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form action={formAction} encType="multipart/form-data" className="space-y-6">
       {initialValues.recipeId ? (
         <input type="hidden" name="recipeId" value={initialValues.recipeId} />
       ) : null}
@@ -104,8 +107,34 @@ export function CreateRecipeForm({
           name="descriptionEs"
           rows={3}
           defaultValue={initialValues.descriptionEs ?? ""}
-          className="w-full rounded-2xl border border-orange-100 bg-white/80 px-4 py-3 text-lg text-stone-950 outline-none transition focus:border-orange-300 focus:ring-4 focus:ring-orange-100"
+          className={fieldTextarea}
         />
+      </label>
+
+      <label className="space-y-3">
+        <span className="text-base font-semibold text-stone-800">
+          Foto de la receta
+        </span>
+        {initialValues.imageUrl ? (
+          <div className="relative aspect-[16/9] w-full max-w-md overflow-hidden rounded-3xl bg-orange-50 ring-1 ring-orange-100">
+            <Image
+              src={initialValues.imageUrl}
+              alt="Foto actual de la receta"
+              fill
+              sizes="(min-width: 768px) 448px, 90vw"
+              className="object-cover"
+            />
+          </div>
+        ) : null}
+        <input
+          name="image"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          className="block min-h-14 w-full rounded-2xl border border-orange-100 bg-white/80 px-4 py-3 text-base font-semibold text-stone-700 file:mr-4 file:rounded-xl file:border-0 file:bg-emerald-700 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
+        />
+        <p className="text-sm font-medium text-stone-500">
+          JPG, PNG o WebP. Máximo 5 MB. Puedes guardar la receta sin foto.
+        </p>
       </label>
 
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
@@ -162,7 +191,7 @@ export function CreateRecipeForm({
 200g pollo
 50g cebolla
 1 tomate`}
-          className="w-full rounded-2xl border border-orange-100 bg-white/80 px-4 py-3 text-lg text-stone-950 outline-none transition placeholder:text-stone-400 focus:border-orange-300 focus:ring-4 focus:ring-orange-100"
+          className={fieldTextarea}
         />
       </label>
 

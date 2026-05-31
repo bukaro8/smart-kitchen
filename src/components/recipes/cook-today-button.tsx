@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 
 import { cookToday, type CookTodayState } from "@/app/actions/meal-history";
+import { buttonPrimary } from "@/lib/ui-styles";
 
 type CookTodayButtonProps = {
   recipeId: string;
@@ -19,7 +20,7 @@ function SubmitButton({ className }: { className?: string }) {
       disabled={pending}
       className={
         className ??
-        "min-h-16 rounded-2xl bg-emerald-700 px-4 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+        `${buttonPrimary} min-h-16 px-4 text-lg`
       }
     >
       {pending ? "Guardando..." : "Cocinar hoy"}

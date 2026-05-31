@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
+import { uploadRecipeImageFromFormData } from "@/server/cloudinary";
 import { prisma } from "@/server/db";
 
 export type CreateRecipeState = {
@@ -137,6 +138,12 @@ export async function createRecipe(
     return { error: "Añade al menos un ingrediente." };
   }
 
+  const imageUpload = await uploadRecipeImageFromFormData(formData);
+
+  if (imageUpload.error) {
+    return { error: imageUpload.error };
+  }
+
   const slug = await createUniqueSlug(userId, nameEs);
   const recipe = await prisma.recipe.create({
     data: {
@@ -145,7 +152,7 @@ export async function createRecipe(
       nameEs,
       nameEn: getString(formData, "nameEn") || undefined,
       descriptionEs: getString(formData, "descriptionEs") || undefined,
-      imageUrl: "/images/meals/pollo-curry.svg",
+      imageUrl: imageUpload.url,
       caloriesPer100g: getOptionalInteger(formData, "caloriesPer100g"),
       proteinPer100g: getOptionalInteger(formData, "proteinPer100g"),
       carbsPer100g: getOptionalInteger(formData, "carbsPer100g"),
@@ -235,6 +242,12 @@ export async function updateRecipe(
     return { error: "Añade al menos un ingrediente." };
   }
 
+  const imageUpload = await uploadRecipeImageFromFormData(formData);
+
+  if (imageUpload.error) {
+    return { error: imageUpload.error };
+  }
+
   const slug = await createUniqueSlug(userId, nameEs, existingRecipe.id);
 
   await prisma.recipe.update({
@@ -246,6 +259,7 @@ export async function updateRecipe(
       nameEs,
       nameEn: getString(formData, "nameEn") || null,
       descriptionEs: getString(formData, "descriptionEs") || null,
+      ...(imageUpload.url ? { imageUrl: imageUpload.url } : {}),
       caloriesPer100g: getOptionalInteger(formData, "caloriesPer100g") ?? null,
       proteinPer100g: getOptionalInteger(formData, "proteinPer100g") ?? null,
       carbsPer100g: getOptionalInteger(formData, "carbsPer100g") ?? null,

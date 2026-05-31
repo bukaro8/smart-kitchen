@@ -4,6 +4,7 @@ import { useActionState, useId, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 import { deleteRecipe, type DeleteRecipeState } from "@/app/actions/recipes";
+import { buttonDestructive, buttonSecondary } from "@/lib/ui-styles";
 
 type DeleteRecipeButtonProps = {
   recipeId: string;
@@ -41,7 +42,7 @@ export function DeleteRecipeButton({
         onClick={() => setIsOpen(true)}
         className={
           className ??
-          "flex min-h-14 items-center rounded-2xl border border-red-100 bg-white/70 px-5 text-base font-semibold text-red-700 transition hover:bg-red-50 hover:text-red-800"
+          buttonDestructive
         }
       >
         Eliminar receta
@@ -74,7 +75,7 @@ export function DeleteRecipeButton({
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="min-h-12 rounded-2xl border border-stone-200 bg-white px-5 text-base font-semibold text-stone-700 transition hover:bg-stone-50 hover:text-stone-950"
+                className={`${buttonSecondary} min-h-12`}
               >
                 Cancelar
               </button>

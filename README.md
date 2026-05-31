@@ -80,6 +80,10 @@ AUTH_SECRET="replace-with-a-long-random-secret"
 AUTH_GOOGLE_ID="replace-with-google-client-id"
 AUTH_GOOGLE_SECRET="replace-with-google-client-secret"
 AUTH_URL="http://localhost:3000"
+CLOUDINARY_CLOUD_NAME="replace-with-cloudinary-cloud-name"
+CLOUDINARY_API_KEY="replace-with-cloudinary-api-key"
+CLOUDINARY_API_SECRET="replace-with-cloudinary-api-secret"
+CLOUDINARY_UPLOAD_FOLDER="mesamate/recipes"
 ```
 
 Generate a local secret:
@@ -110,8 +114,27 @@ For Coolify deployment:
 https://smart-kitchen.example.com/api/auth/callback/google
 ```
 
-- Set `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, and `DATABASE_URL` in Coolify environment variables.
+- Set `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `DATABASE_URL`, and the Cloudinary variables in Coolify environment variables.
 - Do not commit real secrets.
+
+## Recipe Photos
+
+Recipe photos are uploaded to Cloudinary from the create/edit recipe forms.
+The app stores only the final Cloudinary URL in `Recipe.imageUrl`.
+
+Accepted uploads:
+
+- JPG, PNG, or WebP
+- Maximum 5 MB
+
+Required Cloudinary environment variables:
+
+```bash
+CLOUDINARY_CLOUD_NAME="replace-with-cloudinary-cloud-name"
+CLOUDINARY_API_KEY="replace-with-cloudinary-api-key"
+CLOUDINARY_API_SECRET="replace-with-cloudinary-api-secret"
+CLOUDINARY_UPLOAD_FOLDER="mesamate/recipes"
+```
 
 ## Production Container
 
@@ -126,7 +149,7 @@ docker build .
 Container start command:
 
 ```bash
-node server.js
+npm run start
 ```
 
 Coolify should provide PostgreSQL separately and inject these environment variables into the app container:
@@ -137,6 +160,10 @@ AUTH_SECRET="replace-with-a-long-random-secret"
 AUTH_GOOGLE_ID="replace-with-google-client-id"
 AUTH_GOOGLE_SECRET="replace-with-google-client-secret"
 AUTH_URL="https://your-mesamate-domain.example"
+CLOUDINARY_CLOUD_NAME="replace-with-cloudinary-cloud-name"
+CLOUDINARY_API_KEY="replace-with-cloudinary-api-key"
+CLOUDINARY_API_SECRET="replace-with-cloudinary-api-secret"
+CLOUDINARY_UPLOAD_FOLDER="mesamate/recipes"
 ```
 
 Set the Google production callback URL to:

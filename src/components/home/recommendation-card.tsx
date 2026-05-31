@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { CookTodayButton } from "@/components/recipes/cook-today-button";
+import { buttonPrimary, buttonSecondary, recipeCard } from "@/lib/ui-styles";
 
 type RecommendationCardProps = {
   meal: {
@@ -21,7 +22,7 @@ export function RecommendationCard({
   priority = false,
 }: RecommendationCardProps) {
   return (
-    <article className="overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-md shadow-orange-950/5">
+    <article className={recipeCard}>
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-orange-50">
         <Image
           src={meal.image}
@@ -70,18 +71,18 @@ export function RecommendationCard({
           {meal.href ? (
             <Link
               href={meal.href}
-              className="flex min-h-14 flex-shrink-0 items-center justify-center rounded-2xl border border-stone-200 bg-white px-4 text-base font-semibold text-stone-600 transition hover:bg-stone-50 hover:text-stone-950"
+              className={`${buttonSecondary} flex-shrink-0 px-4 text-stone-600`}
             >
               Ver receta
             </Link>
           ) : (
-            <button className="min-h-14 flex-shrink-0 rounded-2xl border border-stone-200 bg-white px-4 text-base font-semibold text-stone-600 transition hover:bg-stone-50 hover:text-stone-950">
+            <button className={`${buttonSecondary} flex-shrink-0 px-4 text-stone-600`}>
               Ver receta
             </button>
           )}
           <CookTodayButton
             recipeId={meal.id}
-            className="min-h-16 min-w-[10rem] rounded-2xl bg-emerald-700 px-5 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+            className={`${buttonPrimary} min-h-16 min-w-[10rem] px-5 text-lg`}
           />
         </div>
       </div>

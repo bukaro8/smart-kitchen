@@ -11,6 +11,7 @@ import { RecommendationCard } from "@/components/home/recommendation-card";
 import { UndoMealHistoryButton } from "@/components/home/undo-meal-history-button";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { LoadStarterRecipesButton } from "@/components/recipes/load-starter-recipes-button";
+import { pageHeader } from "@/lib/ui-styles";
 import { prisma } from "@/server/db";
 
 function getDaysSince(cookedAt: Date) {
@@ -199,7 +200,7 @@ export default async function HomeScreen() {
   return (
     <main className="min-h-dvh bg-[#fff8ef] pb-28 text-stone-950">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-5 py-5 sm:px-8 lg:px-10">
-        <header className="rounded-[1.75rem] bg-white/60 px-5 py-5 ring-1 ring-orange-100 sm:px-7 sm:py-6">
+        <header className={pageHeader}>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <div className="mb-3 flex flex-wrap items-center gap-2.5">
