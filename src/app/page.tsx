@@ -13,15 +13,6 @@ import { BottomNav } from "@/components/layout/bottom-nav";
 import { LoadStarterRecipesButton } from "@/components/recipes/load-starter-recipes-button";
 import { prisma } from "@/server/db";
 
-const filters = [
-  "Rápido",
-  "Saludable",
-  "Pollo",
-  "Pasta",
-  "Arroz",
-  "Bajo calorías",
-];
-
 function getDaysSince(cookedAt: Date) {
   const today = new Date();
   const startOfToday = new Date(
@@ -231,19 +222,6 @@ export default async function HomeScreen() {
             </div>
           </div>
         </header>
-
-        <section aria-label="Filtros rápidos" className="space-y-4">
-          <div className="flex flex-wrap gap-3">
-            {filters.map((filter) => (
-              <button
-                key={filter}
-                className="min-h-14 rounded-2xl border border-orange-100/70 bg-white/40 px-6 text-lg font-semibold text-stone-600 transition hover:bg-white/75 hover:text-stone-900"
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
-        </section>
 
         <section aria-label="Recomendaciones">
           {recommendations.length > 0 ? (

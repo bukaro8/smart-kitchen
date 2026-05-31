@@ -7,6 +7,15 @@ import { BottomNav } from "@/components/layout/bottom-nav";
 import { LoadStarterRecipesButton } from "@/components/recipes/load-starter-recipes-button";
 import { prisma } from "@/server/db";
 
+const filters = [
+  "Rápido",
+  "Saludable",
+  "Pollo",
+  "Pasta",
+  "Arroz",
+  "Bajo calorías",
+];
+
 export default async function RecipesPage() {
   const session = await auth();
 
@@ -33,13 +42,37 @@ export default async function RecipesPage() {
     <main className="min-h-dvh bg-[#fff8ef] pb-28 text-stone-950">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-5 py-5 sm:px-8 lg:px-10">
         <header className="rounded-[1.75rem] bg-white/60 px-5 py-5 ring-1 ring-orange-100 sm:px-7 sm:py-6">
-          <h1 className="text-3xl font-semibold tracking-normal text-stone-950 sm:text-4xl">
-            Recetas
-          </h1>
-          <p className="mt-3 text-lg text-stone-700">
-            Todas tus comidas guardadas
-          </p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-3xl font-semibold tracking-normal text-stone-950 sm:text-4xl">
+                Recetas
+              </h1>
+              <p className="mt-3 text-lg text-stone-700">
+                Todas tus comidas guardadas
+              </p>
+            </div>
+            <Link
+              href="/recetas/nueva"
+              className="flex min-h-14 w-fit items-center rounded-2xl bg-emerald-700 px-6 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800"
+            >
+              Añadir receta
+            </Link>
+          </div>
         </header>
+
+        <section aria-label="Filtros rápidos">
+          <div className="flex flex-wrap gap-3">
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                type="button"
+                className="min-h-14 rounded-2xl border border-orange-100/70 bg-white/40 px-6 text-lg font-semibold text-stone-600 transition hover:bg-white/75 hover:text-stone-900"
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+        </section>
 
         {recipes.length > 0 ? (
           <section

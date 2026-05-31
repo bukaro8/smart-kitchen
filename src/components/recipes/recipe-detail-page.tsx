@@ -3,12 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { CookTodayButton } from "@/components/recipes/cook-today-button";
+import { DeleteRecipeButton } from "@/components/recipes/delete-recipe-button";
 
 const infoIcons = [Flame, Gauge, Timer, Utensils];
 
 export type RecipeDetail = {
   id: string;
   name: string;
+  editHref: string;
   image: string;
   description: string;
   info: [string, string, string, string];
@@ -59,10 +61,24 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
                 </p>
               </div>
 
-              <CookTodayButton
-                recipeId={recipe.id}
-                className="min-h-16 rounded-2xl bg-emerald-700 px-8 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
-              />
+              <div className="w-full rounded-[1.5rem] bg-white/72 p-3 ring-1 ring-orange-100/80 sm:max-w-md">
+                <CookTodayButton
+                  recipeId={recipe.id}
+                  className="min-h-16 w-full rounded-2xl bg-emerald-700 px-8 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+                />
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  <Link
+                    href={recipe.editHref}
+                    className="flex min-h-14 items-center justify-center rounded-2xl border border-stone-200 bg-white/85 px-4 text-center text-base font-semibold text-stone-700 transition hover:bg-white hover:text-stone-950"
+                  >
+                    Editar receta
+                  </Link>
+                  <DeleteRecipeButton
+                    recipeId={recipe.id}
+                    className="flex min-h-14 items-center justify-center rounded-2xl border border-red-100 bg-white/85 px-4 text-center text-base font-semibold text-red-700 transition hover:bg-red-50 hover:text-red-800"
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-4">
