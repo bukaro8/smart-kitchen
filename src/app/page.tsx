@@ -48,7 +48,19 @@ function getRelativeCookedAtLabel(cookedAt: Date) {
   return `Hace ${diffInDays} días`;
 }
 
-function getRecommendationReason(lastCookedAt?: Date) {
+type RecommendationRecipe = {
+  caloriesPer100g: number | null;
+  prepTimeMinutes: number | null;
+};
+
+function getRecommendationReason(
+  recipe: RecommendationRecipe,
+  lastCookedAt?: Date,
+) {
+  const isFast = recipe.prepTimeMinutes !== null && recipe.prepTimeMinutes <= 35;
+  const isLight =
+    recipe.caloriesPer100g !== null && recipe.caloriesPer100g <= 180;
+
   if (!lastCookedAt) {
     return "Nueva en tu cocina";
   }
@@ -63,11 +75,52 @@ function getRecommendationReason(lastCookedAt?: Date) {
     return "La cocinaste ayer";
   }
 
+  if (isFast && isLight) {
+    return "Rápida y ligera";
+  }
+
   return `Hace ${diffInDays} días que no la cocinas`;
 }
 
-function getVarietySortValue(lastCookedAt?: Date) {
-  return lastCookedAt?.getTime() ?? 0;
+function getRecommendationScore(
+  recipe: RecommendationRecipe,
+  lastCookedAt?: Date,
+) {
+  let score = 0;
+
+  if (!lastCookedAt) {
+    score += 40;
+  } else {
+    const daysSinceCooked = getDaysSince(lastCookedAt);
+
+    score += Math.min(Math.max(daysSinceCooked, 0), 30);
+
+    if (daysSinceCooked === 1) {
+      score -= 25;
+    }
+  }
+
+  if (recipe.prepTimeMinutes !== null && recipe.prepTimeMinutes <= 35) {
+    score += 10;
+  }
+
+  if (recipe.caloriesPer100g !== null && recipe.caloriesPer100g <= 180) {
+    score += 5;
+  }
+
+  return score;
+}
+
+function sortRecommendationCandidates<
+  Candidate extends { name: string; score: number },
+>(candidates: Candidate[]) {
+  return candidates.toSorted((firstRecipe, secondRecipe) => {
+    if (firstRecipe.score !== secondRecipe.score) {
+      return secondRecipe.score - firstRecipe.score;
+    }
+
+    return firstRecipe.name.localeCompare(secondRecipe.name, "es");
+  });
 }
 
 function getUrlHostname(url?: string | null) {
@@ -163,25 +216,43 @@ export default async function HomeScreen() {
     }
   }
 
-  const recommendations = recipes
-    .map((recipe) => ({
+  const recommendationCandidates = recipes.map((recipe) => {
+    const lastCookedAt = lastCookedByRecipeId.get(recipe.id);
+
+    return {
       id: recipe.id,
       name: recipe.nameEs,
       image: recipe.imageUrl ?? "/images/meals/pollo-curry.svg",
       caloriesPer100g: recipe.caloriesPer100g ?? 0,
       proteinPer100g: recipe.proteinPer100g ?? 0,
-      lastCookedAt: lastCookedByRecipeId.get(recipe.id),
+      prepTimeMinutes: recipe.prepTimeMinutes,
+      rawCaloriesPer100g: recipe.caloriesPer100g,
+      lastCookedAt,
+      cookedToday: lastCookedAt ? getDaysSince(lastCookedAt) <= 0 : false,
+      score: getRecommendationScore(recipe, lastCookedAt),
       href: `/recetas/${recipe.slug}`,
-    }))
-    .sort(
-      (firstRecipe, secondRecipe) =>
-        getVarietySortValue(firstRecipe.lastCookedAt) -
-        getVarietySortValue(secondRecipe.lastCookedAt),
-    )
+    };
+  });
+  const visibleByBaseScore = sortRecommendationCandidates(
+    recommendationCandidates,
+  ).slice(0, 3);
+  const lowestVisibleScore = visibleByBaseScore.at(-1)?.score ?? 0;
+  const recommendations = sortRecommendationCandidates(
+    recommendationCandidates.map((recipe) => ({
+      ...recipe,
+      score: recipe.cookedToday ? lowestVisibleScore + 0.001 : recipe.score,
+    })),
+  )
     .slice(0, 3)
     .map((recipe) => ({
       ...recipe,
-      reason: getRecommendationReason(recipe.lastCookedAt),
+      reason: getRecommendationReason(
+        {
+          caloriesPer100g: recipe.rawCaloriesPer100g,
+          prepTimeMinutes: recipe.prepTimeMinutes,
+        },
+        recipe.lastCookedAt,
+      ),
     }));
 
   const firstName = session.user.name?.trim().split(/\s+/)[0];

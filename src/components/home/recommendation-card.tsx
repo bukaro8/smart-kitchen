@@ -12,6 +12,7 @@ type RecommendationCardProps = {
     caloriesPer100g: number;
     proteinPer100g: number;
     reason: string;
+    cookedToday: boolean;
     href?: string;
   };
   priority?: boolean;
@@ -82,7 +83,9 @@ export function RecommendationCard({
           )}
           <CookTodayButton
             recipeId={meal.id}
-            className={`${buttonPrimary} min-h-16 min-w-[10rem] px-5 text-lg`}
+            alreadyCookedToday={meal.cookedToday}
+            showStatus={false}
+            className={`${buttonPrimary} min-h-16 w-[10.75rem] px-5 text-lg`}
           />
         </div>
       </div>

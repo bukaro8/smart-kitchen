@@ -15,6 +15,76 @@ export type UndoLatestMealState = {
   error?: string;
 };
 
+const cookingTimeZone = "Europe/London";
+
+function getDatePartsInTimeZone(date: Date, timeZone: string) {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+
+  return {
+    year: Number(parts.find((part) => part.type === "year")?.value),
+    month: Number(parts.find((part) => part.type === "month")?.value),
+    day: Number(parts.find((part) => part.type === "day")?.value),
+  };
+}
+
+function getTimeZoneOffsetMs(date: Date, timeZone: string) {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(date);
+  const values = Object.fromEntries(
+    parts
+      .filter((part) => part.type !== "literal")
+      .map((part) => [part.type, Number(part.value)]),
+  );
+  const timeZoneDateAsUtc = Date.UTC(
+    values.year,
+    values.month - 1,
+    values.day,
+    values.hour,
+    values.minute,
+    values.second,
+  );
+
+  return timeZoneDateAsUtc - date.getTime();
+}
+
+function getUtcDateForTimeZoneDate(
+  dateParts: { year: number; month: number; day: number },
+  timeZone: string,
+) {
+  const utcDate = Date.UTC(dateParts.year, dateParts.month - 1, dateParts.day);
+  const firstOffset = getTimeZoneOffsetMs(new Date(utcDate), timeZone);
+  const firstCandidate = new Date(utcDate - firstOffset);
+  const secondOffset = getTimeZoneOffsetMs(firstCandidate, timeZone);
+
+  return new Date(utcDate - secondOffset);
+}
+
+function getCookingDayRange(date = new Date()) {
+  const today = getDatePartsInTimeZone(date, cookingTimeZone);
+  const tomorrow = {
+    ...today,
+    day: today.day + 1,
+  };
+
+  return {
+    start: getUtcDateForTimeZoneDate(today, cookingTimeZone),
+    end: getUtcDateForTimeZoneDate(tomorrow, cookingTimeZone),
+  };
+}
+
 export async function cookToday(
   _previousState: CookTodayState,
   formData: FormData,
@@ -38,6 +108,7 @@ export async function cookToday(
     },
     select: {
       id: true,
+      slug: true,
     },
   });
 
@@ -45,15 +116,34 @@ export async function cookToday(
     return { error: "No existe esta receta en tu cocina." };
   }
 
-  await prisma.mealHistory.create({
-    data: {
+  const today = getCookingDayRange();
+  const existingCookedToday = await prisma.mealHistory.findFirst({
+    where: {
       userId,
       recipeId: recipe.id,
-      cookedAt: new Date(),
+      cookedAt: {
+        gte: today.start,
+        lt: today.end,
+      },
     },
+    select: { id: true },
   });
 
-  return { message: "Comida registrada." };
+  if (!existingCookedToday) {
+    await prisma.mealHistory.create({
+      data: {
+        userId,
+        recipeId: recipe.id,
+        cookedAt: new Date(),
+      },
+    });
+  }
+
+  revalidatePath("/");
+  revalidatePath("/recetas");
+  revalidatePath(`/recetas/${recipe.slug}`);
+
+  return { message: "Cocinada hoy" };
 }
 
 export async function undoLatestMealHistory(
