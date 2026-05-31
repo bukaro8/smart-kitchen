@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { BottomNav } from "@/components/layout/bottom-nav";
+import { LoadStarterRecipesButton } from "@/components/recipes/load-starter-recipes-button";
 import { prisma } from "@/server/db";
 
 export default async function RecipesPage() {
@@ -133,6 +134,7 @@ export default async function RecipesPage() {
             <p className="text-xl font-semibold text-stone-800">
               No tienes recetas todavía.
             </p>
+            <LoadStarterRecipesButton />
           </section>
         )}
       </div>

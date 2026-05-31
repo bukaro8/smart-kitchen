@@ -10,6 +10,7 @@ import { UserAvatar } from "@/components/auth/user-avatar";
 import { RecommendationCard } from "@/components/home/recommendation-card";
 import { UndoMealHistoryButton } from "@/components/home/undo-meal-history-button";
 import { BottomNav } from "@/components/layout/bottom-nav";
+import { LoadStarterRecipesButton } from "@/components/recipes/load-starter-recipes-button";
 import { prisma } from "@/server/db";
 
 const filters = [
@@ -241,6 +242,7 @@ export default async function HomeScreen() {
               <p className="text-xl font-semibold text-stone-800">
                 No tienes recetas todavía.
               </p>
+              <LoadStarterRecipesButton />
             </div>
           )}
         </section>
