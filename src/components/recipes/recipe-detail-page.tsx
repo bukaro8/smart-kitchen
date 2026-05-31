@@ -2,12 +2,22 @@ import { ArrowLeft, Check, Flame, Gauge, Timer, Utensils } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import type { MockRecipe } from "@/lib/mock-recipes";
+import { CookTodayButton } from "@/components/recipes/cook-today-button";
 
 const infoIcons = [Flame, Gauge, Timer, Utensils];
 
+export type RecipeDetail = {
+  id: string;
+  name: string;
+  image: string;
+  description: string;
+  info: [string, string, string, string];
+  ingredients: string[];
+  steps: string[];
+};
+
 type RecipeDetailPageProps = {
-  recipe: MockRecipe;
+  recipe: RecipeDetail;
 };
 
 export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
@@ -49,9 +59,10 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
                 </p>
               </div>
 
-              <button className="min-h-16 rounded-2xl bg-emerald-700 px-8 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800">
-                Cocinar hoy
-              </button>
+              <CookTodayButton
+                recipeId={recipe.id}
+                className="min-h-16 rounded-2xl bg-emerald-700 px-8 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+              />
             </div>
 
             <div className="grid gap-3 sm:grid-cols-4">

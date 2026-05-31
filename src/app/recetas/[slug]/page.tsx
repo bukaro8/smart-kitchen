@@ -1,0 +1,143 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+
+import { auth } from "@/auth";
+import {
+  RecipeDetailPage,
+  type RecipeDetail,
+} from "@/components/recipes/recipe-detail-page";
+import { prisma } from "@/server/db";
+
+const fallbackSteps = [
+  "Prepara todos los ingredientes antes de empezar.",
+  "Cocina la base de verduras o salsa.",
+  "Añade el ingrediente principal y cocina hasta que esté listo.",
+  "Ajusta sal y especias al gusto.",
+  "Sirve caliente.",
+];
+
+type RecipePageProps = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
+function formatNumber(value: number) {
+  return Number.isInteger(value)
+    ? String(value)
+    : String(value).replace(".", ",");
+}
+
+function buildIngredientText(recipeIngredient: {
+  quantity: number | null;
+  unit: string | null;
+  note: string | null;
+  ingredient: {
+    nameEs: string;
+  };
+}) {
+  const name = recipeIngredient.ingredient.nameEs;
+
+  if (recipeIngredient.note) {
+    return `${recipeIngredient.note} de ${name}`;
+  }
+
+  const quantity = recipeIngredient.quantity;
+  const unit = recipeIngredient.unit;
+
+  if (quantity && unit) {
+    return `${formatNumber(quantity)}${unit === "unidad" ? " " : ""}${unit} ${name}`;
+  }
+
+  if (quantity) {
+    return `${formatNumber(quantity)} ${name}`;
+  }
+
+  return name;
+}
+
+export default async function RecipePage({ params }: RecipePageProps) {
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/login");
+  }
+
+  const userId = session.user.id;
+
+  if (!userId) {
+    redirect("/login");
+  }
+
+  const { slug } = await params;
+
+  const recipe = await prisma.recipe.findUnique({
+    where: {
+      userId_slug: {
+        userId,
+        slug,
+      },
+    },
+    select: {
+      id: true,
+      nameEs: true,
+      descriptionEs: true,
+      imageUrl: true,
+      caloriesPer100g: true,
+      proteinPer100g: true,
+      carbsPer100g: true,
+      fatPer100g: true,
+      prepTimeMinutes: true,
+      difficulty: true,
+      recipeIngredients: {
+        orderBy: [{ sortOrder: "asc" }, { id: "asc" }],
+        select: {
+          quantity: true,
+          unit: true,
+          note: true,
+          ingredient: {
+            select: {
+              nameEs: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!recipe) {
+    return (
+      <main className="flex min-h-dvh items-center justify-center bg-[#fff8ef] px-5 py-10 text-stone-950">
+        <section className="w-full max-w-md rounded-[2rem] bg-white/80 p-7 text-center shadow-sm ring-1 ring-orange-100">
+          <h1 className="text-3xl font-semibold">Receta no encontrada</h1>
+          <p className="mt-3 text-lg text-stone-700">
+            No existe esta receta en tu cocina.
+          </p>
+          <Link
+            href="/"
+            className="mt-6 inline-flex min-h-12 items-center rounded-2xl bg-stone-950 px-5 text-base font-semibold text-white transition hover:bg-stone-800"
+          >
+            Volver
+          </Link>
+        </section>
+      </main>
+    );
+  }
+
+  const detailRecipe: RecipeDetail = {
+    id: recipe.id,
+    name: recipe.nameEs,
+    image: recipe.imageUrl ?? "/images/meals/pollo-curry.svg",
+    description: recipe.descriptionEs ?? "Receta sencilla para cocinar hoy.",
+    info: [
+      `${recipe.caloriesPer100g ?? 0} kcal / 100g`,
+      `${recipe.proteinPer100g ?? 0}g proteína / 100g`,
+      recipe.prepTimeMinutes ? `${recipe.prepTimeMinutes} min` : "Sin tiempo",
+      recipe.difficulty ?? "Fácil",
+    ],
+    ingredients: recipe.recipeIngredients.map(buildIngredientText),
+    steps: fallbackSteps,
+  };
+
+  return <RecipeDetailPage recipe={detailRecipe} />;
+}

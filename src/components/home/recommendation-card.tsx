@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { CookTodayButton } from "@/components/recipes/cook-today-button";
+
 type RecommendationCardProps = {
   meal: {
+    id: string;
     name: string;
     image: string;
     caloriesPer100g: number;
@@ -63,22 +66,23 @@ export function RecommendationCard({
           </div>
         </div>
 
-        <div className="grid grid-cols-[0.75fr_1.35fr] gap-3">
+        <div className="flex w-full flex-wrap items-center justify-between gap-3">
           {meal.href ? (
             <Link
               href={meal.href}
-              className="flex min-h-14 items-center justify-center rounded-2xl border border-stone-200 bg-white px-4 text-base font-semibold text-stone-600 transition hover:bg-stone-50 hover:text-stone-950"
+              className="flex min-h-14 flex-shrink-0 items-center justify-center rounded-2xl border border-stone-200 bg-white px-4 text-base font-semibold text-stone-600 transition hover:bg-stone-50 hover:text-stone-950"
             >
               Ver receta
             </Link>
           ) : (
-            <button className="min-h-14 rounded-2xl border border-stone-200 bg-white px-4 text-base font-semibold text-stone-600 transition hover:bg-stone-50 hover:text-stone-950">
+            <button className="min-h-14 flex-shrink-0 rounded-2xl border border-stone-200 bg-white px-4 text-base font-semibold text-stone-600 transition hover:bg-stone-50 hover:text-stone-950">
               Ver receta
             </button>
           )}
-          <button className="min-h-16 rounded-2xl bg-emerald-700 px-4 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800">
-            Cocinar hoy
-          </button>
+          <CookTodayButton
+            recipeId={meal.id}
+            className="min-h-16 min-w-[10rem] rounded-2xl bg-emerald-700 px-5 text-lg font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+          />
         </div>
       </div>
     </article>

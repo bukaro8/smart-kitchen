@@ -113,6 +113,38 @@ https://smart-kitchen.example.com/api/auth/callback/google
 - Set `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, and `DATABASE_URL` in Coolify environment variables.
 - Do not commit real secrets.
 
+## Production Container
+
+The app includes a production Dockerfile for Coolify.
+
+Build locally:
+
+```bash
+docker build .
+```
+
+Container start command:
+
+```bash
+node server.js
+```
+
+Coolify should provide PostgreSQL separately and inject these environment variables into the app container:
+
+```bash
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
+AUTH_SECRET="replace-with-a-long-random-secret"
+AUTH_GOOGLE_ID="replace-with-google-client-id"
+AUTH_GOOGLE_SECRET="replace-with-google-client-secret"
+AUTH_URL="https://your-mesamate-domain.example"
+```
+
+Set the Google production callback URL to:
+
+```txt
+https://your-mesamate-domain.example/api/auth/callback/google
+```
+
 ## Database
 
 Local PostgreSQL runs in Docker with:
