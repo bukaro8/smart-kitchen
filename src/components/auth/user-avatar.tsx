@@ -10,7 +10,8 @@ type UserAvatarProps = {
 };
 
 export function UserAvatar({ src }: UserAvatarProps) {
-  const [imageSrc, setImageSrc] = useState(src || FALLBACK_AVATAR);
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const imageSrc = src && src !== failedSrc ? src : FALLBACK_AVATAR;
 
   return (
     <Image
@@ -19,7 +20,11 @@ export function UserAvatar({ src }: UserAvatarProps) {
       width={44}
       height={44}
       className="size-11 rounded-full object-cover ring-2 ring-white"
-      onError={() => setImageSrc(FALLBACK_AVATAR)}
+      onError={() => {
+        if (src) {
+          setFailedSrc(src);
+        }
+      }}
     />
   );
 }

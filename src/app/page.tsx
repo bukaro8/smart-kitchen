@@ -78,6 +78,18 @@ function getVarietySortValue(lastCookedAt?: Date) {
   return lastCookedAt?.getTime() ?? 0;
 }
 
+function getUrlHostname(url?: string | null) {
+  if (!url) {
+    return null;
+  }
+
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return "invalid-url";
+  }
+}
+
 export default async function HomeScreen() {
   const session = await auth();
 
@@ -185,6 +197,13 @@ export default async function HomeScreen() {
     ? `Hola ${firstName[0].toUpperCase()}${firstName.slice(1)}, ¿qué cocinamos hoy?`
     : "Hola, ¿qué cocinamos hoy?";
   const avatarUrl = session.user.image;
+
+  if (process.env.NODE_ENV === "production") {
+    console.info("MesaMate avatar image", {
+      hasImage: Boolean(avatarUrl),
+      imageHostname: getUrlHostname(avatarUrl),
+    });
+  }
 
   return (
     <main className="min-h-dvh bg-[#fff8ef] pb-28 text-stone-950">
