@@ -6,11 +6,14 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { SignOutButton } from "@/components/auth/auth-actions";
+import { LanguageSelector } from "@/components/auth/language-selector";
 import { UserAvatar } from "@/components/auth/user-avatar";
-import { RecommendationCard } from "@/components/home/recommendation-card";
+import { HomeRecommendations } from "@/components/home/home-recommendations";
 import { UndoMealHistoryButton } from "@/components/home/undo-meal-history-button";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { LoadStarterRecipesButton } from "@/components/recipes/load-starter-recipes-button";
+import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
 import { pageHeader } from "@/lib/ui-styles";
 import { prisma } from "@/server/db";
 
@@ -56,6 +59,7 @@ type RecommendationRecipe = {
 function getRecommendationReason(
   recipe: RecommendationRecipe,
   lastCookedAt?: Date,
+  cookedTodayLabel = "Cocinada hoy",
 ) {
   const isFast = recipe.prepTimeMinutes !== null && recipe.prepTimeMinutes <= 35;
   const isLight =
@@ -68,7 +72,7 @@ function getRecommendationReason(
   const diffInDays = getDaysSince(lastCookedAt);
 
   if (diffInDays <= 0) {
-    return "Cocinada hoy";
+    return cookedTodayLabel;
   }
 
   if (diffInDays === 1) {
@@ -142,6 +146,9 @@ export default async function HomeScreen() {
     redirect("/login");
   }
 
+  const locale = await getLocale();
+  const messages = getMessages(locale).common;
+
   const recipes = await prisma.recipe.findMany({
     where: { userId: session.user.id },
     orderBy: { nameEs: "asc" },
@@ -154,6 +161,7 @@ export default async function HomeScreen() {
       proteinPer100g: true,
       prepTimeMinutes: true,
       difficulty: true,
+      category: true,
     },
   });
 
@@ -222,10 +230,12 @@ export default async function HomeScreen() {
     return {
       id: recipe.id,
       name: recipe.nameEs,
+      category: recipe.category,
       image: recipe.imageUrl ?? "/images/meals/pollo-curry.svg",
-      caloriesPer100g: recipe.caloriesPer100g ?? 0,
-      proteinPer100g: recipe.proteinPer100g ?? 0,
+      caloriesPer100g: recipe.caloriesPer100g,
+      proteinPer100g: recipe.proteinPer100g,
       prepTimeMinutes: recipe.prepTimeMinutes,
+      difficulty: recipe.difficulty,
       rawCaloriesPer100g: recipe.caloriesPer100g,
       lastCookedAt,
       cookedToday: lastCookedAt ? getDaysSince(lastCookedAt) <= 0 : false,
@@ -252,6 +262,7 @@ export default async function HomeScreen() {
           prepTimeMinutes: recipe.prepTimeMinutes,
         },
         recipe.lastCookedAt,
+        messages.cookedToday,
       ),
     }));
 
@@ -288,24 +299,21 @@ export default async function HomeScreen() {
               </p>
             </div>
 
-            <div className="flex w-fit items-center gap-3 rounded-3xl bg-white/70 px-3 py-2 ring-1 ring-orange-100">
+            <div className="flex w-fit flex-wrap items-center gap-3 rounded-3xl bg-white/70 px-3 py-2 ring-1 ring-orange-100">
               <UserAvatar src={avatarUrl} />
-              <SignOutButton />
+              <LanguageSelector locale={locale} />
+              <SignOutButton locale={locale} />
             </div>
           </div>
         </header>
 
         <section aria-label="Recomendaciones">
           {recommendations.length > 0 ? (
-            <div className="grid gap-6 lg:grid-cols-3">
-              {recommendations.map((meal, index) => (
-                <RecommendationCard
-                  key={meal.id}
-                  meal={meal}
-                  priority={index === 0}
-                />
-              ))}
-            </div>
+            <HomeRecommendations
+              key={locale}
+              meals={recommendations}
+              locale={locale}
+            />
           ) : (
             <div className="rounded-[2rem] bg-white/70 px-5 py-8 text-center ring-1 ring-orange-100">
               <p className="text-xl font-semibold text-stone-800">
@@ -353,7 +361,7 @@ export default async function HomeScreen() {
         </section>
       </div>
 
-      <BottomNav activeItem="Inicio" />
+      <BottomNav activeItem="home" />
     </main>
   );
 }

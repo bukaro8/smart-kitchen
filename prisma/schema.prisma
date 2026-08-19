@@ -18,6 +18,7 @@ model User {
   email         String?       @unique
   emailVerified DateTime?
   image         String?
+  locale        String        @default("es")
   accounts      Account[]
   sessions      Session[]
   recipes       Recipe[]
@@ -79,6 +80,7 @@ model Recipe {
   fatPer100g      Int?
   prepTimeMinutes Int?
   difficulty      String?
+  category        String   @default("Otro")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

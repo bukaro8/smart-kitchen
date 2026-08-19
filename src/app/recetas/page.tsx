@@ -1,26 +1,20 @@
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { LoadStarterRecipesButton } from "@/components/recipes/load-starter-recipes-button";
+import { RecipeCardImage } from "@/components/recipes/recipe-card-image";
+import { getCategoryLabel } from "@/i18n/category-labels";
+import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
 import {
   buttonPrimary,
   buttonSecondary,
   pageHeader,
-  recipeCard,
+  recipePreviewCard,
 } from "@/lib/ui-styles";
 import { prisma } from "@/server/db";
-
-const filters = [
-  "Rápido",
-  "Saludable",
-  "Pollo",
-  "Pasta",
-  "Arroz",
-  "Bajo calorías",
-];
 
 export default async function RecipesPage() {
   const session = await auth();
@@ -29,18 +23,17 @@ export default async function RecipesPage() {
     redirect("/login");
   }
 
+  const locale = await getLocale();
+  const messages = getMessages(locale).common;
+
   const recipes = await prisma.recipe.findMany({
     where: { userId: session.user.id },
     orderBy: { nameEs: "asc" },
     select: {
       nameEs: true,
-      nameEn: true,
       slug: true,
       imageUrl: true,
-      caloriesPer100g: true,
-      proteinPer100g: true,
-      prepTimeMinutes: true,
-      difficulty: true,
+      category: true,
     },
   });
 
@@ -61,24 +54,10 @@ export default async function RecipesPage() {
               href="/recetas/nueva"
               className={`${buttonPrimary} w-fit text-lg`}
             >
-              Añadir receta
+              {messages.addRecipe}
             </Link>
           </div>
         </header>
-
-        <section aria-label="Filtros rápidos">
-          <div className="flex flex-wrap gap-3">
-            {filters.map((filter) => (
-              <button
-                key={filter}
-                type="button"
-                className="min-h-14 rounded-2xl border border-orange-100/70 bg-white/40 px-6 text-lg font-semibold text-stone-600 transition hover:bg-white/75 hover:text-stone-900"
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
-        </section>
 
         {recipes.length > 0 ? (
           <section
@@ -86,84 +65,32 @@ export default async function RecipesPage() {
             className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
           >
             {recipes.map((recipe, index) => (
-              <article
-                key={recipe.slug}
-                className={recipeCard}
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-orange-50">
-                  <Image
-                    src={recipe.imageUrl ?? "/images/meals/pollo-curry.svg"}
-                    alt={recipe.nameEs}
-                    fill
-                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-                    className="object-cover"
-                    priority={index === 0}
-                  />
-                </div>
+              <article key={recipe.slug} className={recipePreviewCard}>
+                <RecipeCardImage
+                  src={recipe.imageUrl ?? "/images/meals/pollo-curry.svg"}
+                  alt={recipe.nameEs}
+                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                  priority={index === 0}
+                />
 
-                <div className="space-y-4 p-5">
+                <div className="flex flex-1 flex-col p-5">
                   <div>
-                    <h2 className="text-2xl font-semibold leading-tight text-stone-950">
+                    <span className="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-800">
+                      {getCategoryLabel(recipe.category, locale)}
+                    </span>
+                    <h2 className="mt-3 text-2xl font-semibold leading-tight text-stone-950">
                       {recipe.nameEs}
                     </h2>
-                    {recipe.nameEn ? (
-                      <p className="mt-1 text-sm font-semibold text-stone-500">
-                        {recipe.nameEn}
-                      </p>
-                    ) : null}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2.5 text-stone-700">
-                    <div className="rounded-2xl bg-stone-50/70 px-3.5 py-2.5">
-                      <p className="text-xs font-medium text-stone-500">
-                        Calorías
-                      </p>
-                      <p className="mt-1 text-base font-semibold">
-                        {recipe.caloriesPer100g ?? 0}
-                        <span className="text-xs font-medium text-stone-500">
-                          {" "}
-                          / 100g
-                        </span>
-                      </p>
-                    </div>
-                    <div className="rounded-2xl bg-stone-50/70 px-3.5 py-2.5">
-                      <p className="text-xs font-medium text-stone-500">
-                        Proteína
-                      </p>
-                      <p className="mt-1 text-base font-semibold">
-                        {recipe.proteinPer100g ?? 0}g
-                        <span className="text-xs font-medium text-stone-500">
-                          {" "}
-                          / 100g
-                        </span>
-                      </p>
-                    </div>
-                    <div className="rounded-2xl bg-stone-50/70 px-3.5 py-2.5">
-                      <p className="text-xs font-medium text-stone-500">
-                        Tiempo
-                      </p>
-                      <p className="mt-1 text-base font-semibold">
-                        {recipe.prepTimeMinutes
-                          ? `${recipe.prepTimeMinutes} min`
-                          : "Sin tiempo"}
-                      </p>
-                    </div>
-                    <div className="rounded-2xl bg-stone-50/70 px-3.5 py-2.5">
-                      <p className="text-xs font-medium text-stone-500">
-                        Dificultad
-                      </p>
-                      <p className="mt-1 text-base font-semibold">
-                        {recipe.difficulty ?? "Fácil"}
-                      </p>
-                    </div>
+                  <div className="mt-auto pt-6">
+                    <Link
+                      href={`/recetas/${recipe.slug}`}
+                      className={`${buttonSecondary} w-full`}
+                    >
+                      {messages.viewRecipe}
+                    </Link>
                   </div>
-
-                  <Link
-                    href={`/recetas/${recipe.slug}`}
-                    className={`${buttonSecondary} w-full`}
-                  >
-                    Ver receta
-                  </Link>
                 </div>
               </article>
             ))}
@@ -178,7 +105,7 @@ export default async function RecipesPage() {
         )}
       </div>
 
-      <BottomNav activeItem="Recetas" />
+      <BottomNav activeItem="recipes" />
     </main>
   );
 }

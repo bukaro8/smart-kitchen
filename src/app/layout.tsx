@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+import { getLocale } from "@/i18n/get-locale";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -6,13 +9,15 @@ export const metadata: Metadata = {
   description: "Pantalla inicial del MVP Smart Kitchen",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+
   return (
-    <html lang="es" className="h-full antialiased">
+    <html lang={locale} className="h-full antialiased">
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

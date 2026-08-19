@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { CreateRecipeForm } from "@/components/recipes/create-recipe-form";
+import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
 import { buttonSecondary, contentCard, pageHeader } from "@/lib/ui-styles";
 import { prisma } from "@/server/db";
 
@@ -19,7 +21,7 @@ function formatNumber(value: number) {
     : String(value).replace(".", ",");
 }
 
-function buildIngredientLine(recipeIngredient: {
+function buildIngredientRow(recipeIngredient: {
   quantity: number | null;
   unit: string | null;
   note: string | null;
@@ -27,28 +29,13 @@ function buildIngredientLine(recipeIngredient: {
     nameEs: string;
   };
 }) {
-  const name = recipeIngredient.ingredient.nameEs;
-
-  if (recipeIngredient.note) {
-    return recipeIngredient.note.toLowerCase().includes(name.toLowerCase())
-      ? recipeIngredient.note
-      : `${recipeIngredient.note} ${name}`;
-  }
-
   const quantity = recipeIngredient.quantity;
-  const unit = recipeIngredient.unit;
 
-  if (quantity && unit) {
-    return unit === "unidad"
-      ? `${formatNumber(quantity)} ${name}`
-      : `${formatNumber(quantity)}${unit} ${name}`;
-  }
-
-  if (quantity) {
-    return `${formatNumber(quantity)} ${name}`;
-  }
-
-  return name;
+  return {
+    nameEs: recipeIngredient.ingredient.nameEs,
+    quantity: quantity === null ? "" : formatNumber(quantity),
+    unit: recipeIngredient.unit,
+  };
 }
 
 export default async function EditRecipePage({ params }: EditRecipePageProps) {
@@ -63,6 +50,9 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
   if (!userId) {
     redirect("/login");
   }
+
+  const locale = await getLocale();
+  const messages = getMessages(locale).common;
 
   const { slug } = await params;
   const recipe = await prisma.recipe.findUnique({
@@ -84,6 +74,7 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
       fatPer100g: true,
       prepTimeMinutes: true,
       difficulty: true,
+      category: true,
       recipeIngredients: {
         orderBy: [{ sortOrder: "asc" }, { id: "asc" }],
         select: {
@@ -112,7 +103,7 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
             href="/recetas"
             className={`${buttonSecondary} mt-6`}
           >
-            Volver
+            {messages.back}
           </Link>
         </section>
       </main>
@@ -127,7 +118,7 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
             href={`/recetas/${slug}`}
             className={`${buttonSecondary} mb-4 min-h-12 px-4`}
           >
-            Volver
+            {messages.back}
           </Link>
           <h1 className="text-3xl font-semibold tracking-normal text-stone-950 sm:text-4xl">
             Editar receta
@@ -152,15 +143,14 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
               fatPer100g: recipe.fatPer100g,
               prepTimeMinutes: recipe.prepTimeMinutes,
               difficulty: recipe.difficulty,
-              ingredients: recipe.recipeIngredients
-                .map(buildIngredientLine)
-                .join("\n"),
+              category: recipe.category,
+              ingredientRows: recipe.recipeIngredients.map(buildIngredientRow),
             }}
           />
         </section>
       </div>
 
-      <BottomNav activeItem="Recetas" />
+      <BottomNav activeItem="recipes" />
     </main>
   );
 }

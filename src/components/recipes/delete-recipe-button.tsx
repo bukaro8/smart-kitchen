@@ -4,15 +4,19 @@ import { useActionState, useId, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 import { deleteRecipe, type DeleteRecipeState } from "@/app/actions/recipes";
+import type { AppLocale } from "@/i18n/config";
+import { getMessages } from "@/i18n/get-messages";
 import { buttonDestructive, buttonSecondary } from "@/lib/ui-styles";
 
 type DeleteRecipeButtonProps = {
   recipeId: string;
+  locale: AppLocale;
   className?: string;
 };
 
-function DeleteSubmitButton() {
+function DeleteSubmitButton({ locale }: { locale: AppLocale }) {
   const { pending } = useFormStatus();
+  const messages = getMessages(locale).common;
 
   return (
     <button
@@ -20,13 +24,14 @@ function DeleteSubmitButton() {
       disabled={pending}
       className="min-h-12 rounded-2xl bg-red-700 px-5 text-base font-semibold text-white transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-60"
     >
-      {pending ? "Eliminando..." : "Eliminar"}
+      {pending ? messages.deleting : messages.delete}
     </button>
   );
 }
 
 export function DeleteRecipeButton({
   recipeId,
+  locale,
   className,
 }: DeleteRecipeButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,6 +39,7 @@ export function DeleteRecipeButton({
   const [state, formAction] = useActionState(deleteRecipe, initialState);
   const titleId = useId();
   const descriptionId = useId();
+  const messages = getMessages(locale).common;
 
   return (
     <>
@@ -45,7 +51,7 @@ export function DeleteRecipeButton({
           buttonDestructive
         }
       >
-        Eliminar receta
+        {messages.deleteRecipe}
       </button>
 
       {state.error ? (
@@ -64,11 +70,10 @@ export function DeleteRecipeButton({
         >
           <div className="w-full max-w-md rounded-[2rem] bg-white p-6 shadow-xl shadow-stone-950/20 ring-1 ring-red-100">
             <h2 id={titleId} className="text-2xl font-semibold text-stone-950">
-              ¿Eliminar receta?
+              {messages.deleteRecipeConfirmation}
             </h2>
             <p id={descriptionId} className="mt-3 text-base text-stone-700">
-              Esta acción eliminará la receta y su historial de cocinado. No se
-              puede deshacer.
+              {messages.deleteRecipeWarning}
             </p>
 
             <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
@@ -77,11 +82,11 @@ export function DeleteRecipeButton({
                 onClick={() => setIsOpen(false)}
                 className={`${buttonSecondary} min-h-12`}
               >
-                Cancelar
+                {messages.cancel}
               </button>
               <form action={formAction}>
                 <input type="hidden" name="recipeId" value={recipeId} />
-                <DeleteSubmitButton />
+                <DeleteSubmitButton locale={locale} />
               </form>
             </div>
           </div>

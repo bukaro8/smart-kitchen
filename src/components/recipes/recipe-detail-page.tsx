@@ -4,6 +4,8 @@ import Link from "next/link";
 
 import { CookTodayButton } from "@/components/recipes/cook-today-button";
 import { DeleteRecipeButton } from "@/components/recipes/delete-recipe-button";
+import type { AppLocale } from "@/i18n/config";
+import { getMessages } from "@/i18n/get-messages";
 import {
   buttonDestructive,
   buttonPrimary,
@@ -17,6 +19,7 @@ const infoIcons = [Flame, Gauge, Timer, Utensils];
 export type RecipeDetail = {
   id: string;
   name: string;
+  category: string;
   editHref: string;
   image: string;
   description: string;
@@ -27,9 +30,12 @@ export type RecipeDetail = {
 
 type RecipeDetailPageProps = {
   recipe: RecipeDetail;
+  locale: AppLocale;
 };
 
-export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
+export function RecipeDetailPage({ recipe, locale }: RecipeDetailPageProps) {
+  const messages = getMessages(locale).common;
+
   return (
     <main className="min-h-dvh bg-[#fff8ef] px-5 py-5 pb-10 text-stone-950 sm:px-8 lg:px-10">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-5">
@@ -38,7 +44,7 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
           className={`${buttonSecondary} w-fit gap-2`}
         >
           <ArrowLeft size={20} aria-hidden="true" />
-          Volver
+          {messages.back}
         </Link>
 
         <section className={`relative ${recipeCard}`}>
@@ -60,6 +66,9 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
           <div className="relative space-y-5 p-5 sm:p-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div>
+                <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-800 ring-1 ring-emerald-100">
+                  {recipe.category}
+                </span>
                 <h1 className="text-4xl font-semibold tracking-normal sm:text-5xl">
                   {recipe.name}
                 </h1>
@@ -71,6 +80,7 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
               <div className="w-full rounded-[1.5rem] bg-white/78 p-3 shadow-sm ring-1 ring-orange-100/80 sm:max-w-md">
                 <CookTodayButton
                   recipeId={recipe.id}
+                  locale={locale}
                   className={`${buttonPrimary} min-h-16 w-full px-8 text-lg`}
                 />
                 <div className="mt-3 grid grid-cols-2 gap-3">
@@ -78,10 +88,11 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
                     href={recipe.editHref}
                     className={`${buttonSecondary} px-4 text-center`}
                   >
-                    Editar receta
+                    {messages.editRecipe}
                   </Link>
                   <DeleteRecipeButton
                     recipeId={recipe.id}
+                    locale={locale}
                     className={`${buttonDestructive} px-4 text-center`}
                   />
                 </div>
@@ -112,7 +123,7 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <section className={contentCard}>
-            <h2 className="text-2xl font-semibold">Ingredientes</h2>
+            <h2 className="text-2xl font-semibold">{messages.ingredients}</h2>
             <div className="mt-5 space-y-3">
               {recipe.ingredients.map((ingredient) => (
                 <label
@@ -129,7 +140,7 @@ export function RecipeDetailPage({ recipe }: RecipeDetailPageProps) {
           </section>
 
           <section className={contentCard}>
-            <h2 className="text-2xl font-semibold">Pasos</h2>
+            <h2 className="text-2xl font-semibold">{messages.steps}</h2>
             <ol className="mt-5 space-y-4">
               {recipe.steps.map((step, index) => (
                 <li

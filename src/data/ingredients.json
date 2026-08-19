@@ -1,0 +1,205 @@
+[
+  {
+    "id": "chicken_breast",
+    "nameEn": "Chicken Breast",
+    "nameEs": "Pechuga de pollo",
+    "defaultUnit": "g",
+    "caloriesPer100g": 165
+  },
+  {
+    "id": "chicken_thigh",
+    "nameEn": "Chicken Thigh",
+    "nameEs": "Muslo de pollo",
+    "defaultUnit": "g",
+    "caloriesPer100g": 209
+  },
+  {
+    "id": "beef",
+    "nameEn": "Beef",
+    "nameEs": "Carne de res",
+    "defaultUnit": "g",
+    "caloriesPer100g": 250
+  },
+  {
+    "id": "pork",
+    "nameEn": "Pork",
+    "nameEs": "Cerdo",
+    "defaultUnit": "g",
+    "caloriesPer100g": 242
+  },
+  {
+    "id": "mixed_seafood",
+    "nameEn": "Mixed Seafood",
+    "nameEs": "Mariscos mixtos",
+    "defaultUnit": "g",
+    "caloriesPer100g": 90
+  },
+  {
+    "id": "rice",
+    "nameEn": "Rice",
+    "nameEs": "Arroz",
+    "defaultUnit": "g",
+    "caloriesPer100g": 130
+  },
+  {
+    "id": "dry_pasta",
+    "nameEn": "Pasta",
+    "nameEs": "Pasta",
+    "defaultUnit": "g",
+    "caloriesPer100g": 157
+  },
+  {
+    "id": "potato",
+    "nameEn": "Potato",
+    "nameEs": "Patata",
+    "defaultUnit": "g",
+    "caloriesPer100g": 77
+  },
+  {
+    "id": "sweet_potato",
+    "nameEn": "Sweet Potato",
+    "nameEs": "Batata",
+    "defaultUnit": "g",
+    "caloriesPer100g": 86
+  },
+  {
+    "id": "onion",
+    "nameEn": "Onion",
+    "nameEs": "Cebolla",
+    "defaultUnit": "unidad",
+    "caloriesPerUnit": 60
+  },
+  {
+    "id": "garlic",
+    "nameEn": "Garlic",
+    "nameEs": "Ajo",
+    "defaultUnit": "g",
+    "caloriesPer100g": 149
+  },
+  {
+    "id": "tomato",
+    "nameEn": "Tomato",
+    "nameEs": "Tomate",
+    "defaultUnit": "unidad",
+    "caloriesPerUnit": 22
+  },
+  {
+    "id": "mixed_vegetables",
+    "nameEn": "Mixed Vegetables",
+    "nameEs": "Verduras mixtas",
+    "defaultUnit": "g",
+    "caloriesPer100g": 40
+  },
+  {
+    "id": "red_pepper",
+    "nameEn": "Red Pepper",
+    "nameEs": "Pimiento rojo",
+    "defaultUnit": "unidad",
+    "caloriesPerUnit": 37
+  },
+  {
+    "id": "green_pepper",
+    "nameEn": "Green Pepper",
+    "nameEs": "Pimiento verde",
+    "defaultUnit": "unidad",
+    "caloriesPerUnit": 24
+  },
+  {
+    "id": "peas",
+    "nameEn": "Peas",
+    "nameEs": "Guisantes",
+    "defaultUnit": "g",
+    "caloriesPer100g": 84
+  },
+  {
+    "id": "lentils",
+    "nameEn": "Lentils",
+    "nameEs": "Lentejas",
+    "defaultUnit": "g",
+    "caloriesPer100g": 116
+  },
+  {
+    "id": "kidney_beans",
+    "nameEn": "Kidney Beans",
+    "nameEs": "Frijoles rojos",
+    "defaultUnit": "g",
+    "caloriesPer100g": 127
+  },
+  {
+    "id": "egg",
+    "nameEn": "Egg",
+    "nameEs": "Huevo",
+    "defaultUnit": "unidad",
+    "caloriesPerUnit": 70
+  },
+  {
+    "id": "olive_oil",
+    "nameEn": "Olive Oil",
+    "nameEs": "Aceite de oliva",
+    "defaultUnit": "ml",
+    "caloriesPer100ml": 824
+  },
+  {
+    "id": "vegetable_oil",
+    "nameEn": "Vegetable Oil",
+    "nameEs": "Aceite vegetal",
+    "defaultUnit": "ml",
+    "caloriesPer100ml": 884
+  },
+  {
+    "id": "double_cream",
+    "nameEn": "Double Cream",
+    "nameEs": "Nata",
+    "defaultUnit": "ml",
+    "caloriesPer100ml": 467
+  },
+  {
+    "id": "milk",
+    "nameEn": "Milk",
+    "nameEs": "Leche",
+    "defaultUnit": "ml",
+    "caloriesPer100ml": 47
+  },
+  {
+    "id": "chicken_stock",
+    "nameEn": "Chicken Stock",
+    "nameEs": "Caldo de pollo",
+    "defaultUnit": "ml",
+    "caloriesPer100ml": 10
+  },
+  {
+    "id": "beef_stock",
+    "nameEn": "Beef Stock",
+    "nameEs": "Caldo de res",
+    "defaultUnit": "ml",
+    "caloriesPer100ml": 12
+  },
+  {
+  "id": "crushed_tomato_can",
+  "nameEn": "Crushed Tomato Can",
+  "nameEs": "Tomate triturado en lata",
+  "defaultUnit": "lata",
+  "caloriesPerUnit": 84
+},
+{
+  "id": "coconut_milk_can",
+  "nameEn": "Coconut Milk Can",
+  "nameEs": "Leche de coco en lata",
+  "defaultUnit": "lata",
+  "caloriesPerUnit": 760
+},
+{
+  "id": "kidney_beans_can",
+  "nameEn": "Kidney Beans Can",
+  "nameEs": "Frijoles rojos en lata",
+  "defaultUnit": "lata",
+  "caloriesPerUnit": 360
+},
+{
+  "id": "anchovies_can",
+  "nameEn": "Anchovies Can",
+  "nameEs": "Anchoas en lata",
+  "defaultUnit": "lata",
+  "caloriesPerUnit": 105
+}
+]

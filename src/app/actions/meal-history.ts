@@ -141,6 +141,7 @@ export async function cookToday(
 
   revalidatePath("/");
   revalidatePath("/recetas");
+  revalidatePath("/historial");
   revalidatePath(`/recetas/${recipe.slug}`);
 
   return { message: "Cocinada hoy" };
@@ -177,6 +178,7 @@ export async function undoLatestMealHistory(
   });
 
   revalidatePath("/");
+  revalidatePath("/historial");
 
   return { message: "Registro eliminado." };
 }

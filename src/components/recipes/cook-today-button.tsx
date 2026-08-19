@@ -5,31 +5,38 @@ import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 
 import { cookToday, type CookTodayState } from "@/app/actions/meal-history";
+import type { AppLocale } from "@/i18n/config";
+import { getMessages } from "@/i18n/get-messages";
 import { buttonPrimary } from "@/lib/ui-styles";
 
 type CookTodayButtonProps = {
   recipeId: string;
+  locale: AppLocale;
   alreadyCookedToday?: boolean;
   className?: string;
+  onCookedToday?: (recipeId: string) => void;
   showStatus?: boolean;
 };
 
 function SubmitButton({
   alreadyCookedToday = false,
   className,
+  locale,
   message,
 }: {
   alreadyCookedToday?: boolean;
   className?: string;
+  locale: AppLocale;
   message?: string;
 }) {
   const { pending } = useFormStatus();
   const isCooked = alreadyCookedToday || Boolean(message);
+  const messages = getMessages(locale).common;
   const label = pending
-    ? "Guardando..."
+    ? messages.saving
     : isCooked
-      ? "Cocinada hoy"
-      : "Cocinar hoy";
+      ? messages.cookedToday
+      : messages.cookToday;
 
   return (
     <button
@@ -47,8 +54,10 @@ function SubmitButton({
 
 export function CookTodayButton({
   recipeId,
+  locale,
   alreadyCookedToday = false,
   className,
+  onCookedToday,
   showStatus = true,
 }: CookTodayButtonProps) {
   const router = useRouter();
@@ -57,9 +66,10 @@ export function CookTodayButton({
 
   useEffect(() => {
     if (state.message) {
+      onCookedToday?.(recipeId);
       router.refresh();
     }
-  }, [router, state.message]);
+  }, [onCookedToday, recipeId, router, state.message]);
 
   return (
     <form action={formAction} className="space-y-1">
@@ -67,6 +77,7 @@ export function CookTodayButton({
       <SubmitButton
         alreadyCookedToday={alreadyCookedToday}
         className={className}
+        locale={locale}
         message={state.message}
       />
       {showStatus ? (

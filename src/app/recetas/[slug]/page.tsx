@@ -6,6 +6,9 @@ import {
   RecipeDetailPage,
   type RecipeDetail,
 } from "@/components/recipes/recipe-detail-page";
+import { getCategoryLabel } from "@/i18n/category-labels";
+import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
 import { prisma } from "@/server/db";
 
 const fallbackSteps = [
@@ -69,6 +72,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
     redirect("/login");
   }
 
+  const locale = await getLocale();
+  const messages = getMessages(locale).common;
+
   const { slug } = await params;
 
   const recipe = await prisma.recipe.findUnique({
@@ -89,6 +95,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
       fatPer100g: true,
       prepTimeMinutes: true,
       difficulty: true,
+      category: true,
       recipeIngredients: {
         orderBy: [{ sortOrder: "asc" }, { id: "asc" }],
         select: {
@@ -117,7 +124,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
             href="/"
             className="mt-6 inline-flex min-h-12 items-center rounded-2xl bg-stone-950 px-5 text-base font-semibold text-white transition hover:bg-stone-800"
           >
-            Volver
+            {messages.back}
           </Link>
         </section>
       </main>
@@ -127,18 +134,25 @@ export default async function RecipePage({ params }: RecipePageProps) {
   const detailRecipe: RecipeDetail = {
     id: recipe.id,
     name: recipe.nameEs,
+    category: getCategoryLabel(recipe.category, locale),
     editHref: `/recetas/${slug}/editar`,
     image: recipe.imageUrl ?? "/images/meals/pollo-curry.svg",
     description: recipe.descriptionEs ?? "Receta sencilla para cocinar hoy.",
     info: [
-      `${recipe.caloriesPer100g ?? 0} kcal / 100g`,
-      `${recipe.proteinPer100g ?? 0}g proteína / 100g`,
-      recipe.prepTimeMinutes ? `${recipe.prepTimeMinutes} min` : "Sin tiempo",
-      recipe.difficulty ?? "Fácil",
+      recipe.caloriesPer100g === null
+        ? messages.noData
+        : `${recipe.caloriesPer100g} kcal / 100g`,
+      recipe.proteinPer100g === null
+        ? messages.noData
+        : `${recipe.proteinPer100g}g proteína / 100g`,
+      recipe.prepTimeMinutes
+        ? `${recipe.prepTimeMinutes} min`
+        : messages.noData,
+      recipe.difficulty ?? messages.noData,
     ],
     ingredients: recipe.recipeIngredients.map(buildIngredientText),
     steps: fallbackSteps,
   };
 
-  return <RecipeDetailPage recipe={detailRecipe} />;
+  return <RecipeDetailPage recipe={detailRecipe} locale={locale} />;
 }

@@ -1,4 +1,5 @@
 import { prisma } from "@/server/db";
+import type { RecipeCategory } from "@/constants/recipe-categories";
 
 type StarterIngredient = {
   nameEs: string;
@@ -19,6 +20,7 @@ type StarterRecipe = {
   fatPer100g: number;
   prepTimeMinutes: number;
   difficulty: string;
+  category: RecipeCategory;
   ingredients: StarterIngredient[];
 };
 
@@ -36,6 +38,7 @@ export const starterRecipes: StarterRecipe[] = [
     fatPer100g: 5,
     prepTimeMinutes: 35,
     difficulty: "Fácil",
+    category: "Pollo",
     ingredients: [
       { nameEs: "pechuga de pollo", quantity: 1, unit: "unidad" },
       { nameEs: "cebolla", quantity: 50, unit: "g" },
@@ -63,6 +66,7 @@ export const starterRecipes: StarterRecipe[] = [
     fatPer100g: 5,
     prepTimeMinutes: 45,
     difficulty: "Media",
+    category: "Arroz",
     ingredients: [
       { nameEs: "arroz", quantity: 150, unit: "g" },
       { nameEs: "pollo", quantity: 1, unit: "unidad", note: "muslo o pechuga" },
@@ -86,6 +90,7 @@ export const starterRecipes: StarterRecipe[] = [
     fatPer100g: 6,
     prepTimeMinutes: 40,
     difficulty: "Fácil",
+    category: "Legumbres",
     ingredients: [
       { nameEs: "lentejas cocidas", quantity: 200, unit: "g" },
       { nameEs: "chorizo", quantity: 50, unit: "g" },
@@ -109,6 +114,7 @@ export const starterRecipes: StarterRecipe[] = [
     fatPer100g: 1,
     prepTimeMinutes: 15,
     difficulty: "Fácil",
+    category: "Sopa/Guiso",
     ingredients: [
       { nameEs: "cebolla", quantity: 1, unit: "unidad" },
       { nameEs: "tomate", quantity: 1, unit: "unidad" },
@@ -128,6 +134,7 @@ export const starterRecipes: StarterRecipe[] = [
     fatPer100g: 4,
     prepTimeMinutes: 75,
     difficulty: "Media",
+    category: "Legumbres",
     ingredients: [
       { nameEs: "frijoles rojos secos", quantity: 220, unit: "g" },
       { nameEs: "carne magra de cerdo", quantity: 150, unit: "g" },
@@ -150,6 +157,7 @@ export const starterRecipes: StarterRecipe[] = [
     fatPer100g: 3,
     prepTimeMinutes: 40,
     difficulty: "Fácil",
+    category: "Arroz",
     ingredients: [
       { nameEs: "pechuga de pollo", quantity: 300, unit: "g" },
       { nameEs: "arroz seco", quantity: 200, unit: "g" },
@@ -169,6 +177,7 @@ export const starterRecipes: StarterRecipe[] = [
     fatPer100g: 7,
     prepTimeMinutes: 60,
     difficulty: "Media",
+    category: "Carne",
     ingredients: [
       { nameEs: "carne de res para guisar", quantity: 500, unit: "g" },
       { nameEs: "guiso", quantity: 1, unit: "unidad" },
@@ -197,6 +206,7 @@ export async function createStarterRecipesForUser(userId: string) {
         fatPer100g: recipeSeed.fatPer100g,
         prepTimeMinutes: recipeSeed.prepTimeMinutes,
         difficulty: recipeSeed.difficulty,
+        category: recipeSeed.category,
       },
       create: {
         userId,
@@ -211,6 +221,7 @@ export async function createStarterRecipesForUser(userId: string) {
         fatPer100g: recipeSeed.fatPer100g,
         prepTimeMinutes: recipeSeed.prepTimeMinutes,
         difficulty: recipeSeed.difficulty,
+        category: recipeSeed.category,
       },
     });
 

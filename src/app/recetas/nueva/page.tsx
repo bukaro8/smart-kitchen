@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { CreateRecipeForm } from "@/components/recipes/create-recipe-form";
+import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
 import { buttonSecondary, contentCard, pageHeader } from "@/lib/ui-styles";
 
 export default async function NewRecipePage() {
@@ -13,6 +15,9 @@ export default async function NewRecipePage() {
     redirect("/login");
   }
 
+  const locale = await getLocale();
+  const messages = getMessages(locale).common;
+
   return (
     <main className="min-h-dvh bg-[#fff8ef] pb-28 text-stone-950">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-5 py-5 sm:px-8 lg:px-10">
@@ -21,7 +26,7 @@ export default async function NewRecipePage() {
             href="/recetas"
             className={`${buttonSecondary} mb-4 min-h-12 px-4`}
           >
-            Volver
+            {messages.back}
           </Link>
           <h1 className="text-3xl font-semibold tracking-normal text-stone-950 sm:text-4xl">
             Añadir receta
@@ -36,7 +41,7 @@ export default async function NewRecipePage() {
         </section>
       </div>
 
-      <BottomNav activeItem="Recetas" />
+      <BottomNav activeItem="recipes" />
     </main>
   );
 }

@@ -1,4 +1,6 @@
 import { signIn, signOut } from "@/auth";
+import type { AppLocale } from "@/i18n/config";
+import { getMessages } from "@/i18n/get-messages";
 import { buttonPrimary, buttonSecondary } from "@/lib/ui-styles";
 
 export function GoogleSignInButton() {
@@ -19,7 +21,9 @@ export function GoogleSignInButton() {
   );
 }
 
-export function SignOutButton() {
+export function SignOutButton({ locale }: { locale: AppLocale }) {
+  const messages = getMessages(locale).common;
+
   return (
     <form
       action={async () => {
@@ -31,7 +35,7 @@ export function SignOutButton() {
         type="submit"
         className={`${buttonSecondary} min-h-12 px-5 text-sm`}
       >
-        Salir
+        {messages.signOut}
       </button>
     </form>
   );

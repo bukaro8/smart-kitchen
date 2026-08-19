@@ -2,53 +2,51 @@ import {
   BookOpen,
   History,
   Home,
-  ShoppingBasket,
-  Warehouse,
 } from "lucide-react";
 import Link from "next/link";
 
+import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
+
 const navItems = [
-  { label: "Inicio", icon: Home, href: "/" },
-  { label: "Recetas", icon: BookOpen, href: "/recetas" },
-  { label: "Compra", icon: ShoppingBasket },
-  { label: "Despensa", icon: Warehouse },
-  { label: "Historial", icon: History },
-];
+  { id: "home", labelKey: "home", icon: Home, href: "/" },
+  { id: "recipes", labelKey: "recipes", icon: BookOpen, href: "/recetas" },
+  {
+    id: "history",
+    labelKey: "history",
+    icon: History,
+    href: "/historial",
+  },
+] as const;
 
 type BottomNavProps = {
-  activeItem: "Inicio" | "Recetas" | "Compra" | "Despensa" | "Historial";
+  activeItem: (typeof navItems)[number]["id"];
 };
 
-export function BottomNav({ activeItem }: BottomNavProps) {
+export async function BottomNav({ activeItem }: BottomNavProps) {
+  const locale = await getLocale();
+  const messages = getMessages(locale).common;
+
   return (
     <nav
-      aria-label="Navegación principal"
+      aria-label={messages.mainNavigation}
       className="fixed inset-x-0 bottom-0 z-10 border-t border-orange-100 bg-white/95 px-3 py-3 shadow-[0_-12px_30px_rgba(120,53,15,0.08)] backdrop-blur"
     >
-      <div className="mx-auto grid max-w-4xl grid-cols-5 gap-2">
+      <div className="mx-auto grid max-w-md grid-cols-3 gap-2">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = item.label === activeItem;
+          const isActive = item.id === activeItem;
           const className = `flex min-h-16 flex-col items-center justify-center gap-1 rounded-2xl text-sm font-semibold transition ${
             isActive
-              ? "bg-stone-950 text-white"
+              ? "bg-emerald-700 text-white"
               : "text-stone-600 hover:bg-orange-50 hover:text-stone-950"
           }`;
 
-          if (item.href) {
-            return (
-              <Link key={item.label} href={item.href} className={className}>
-                <Icon size={24} aria-hidden="true" />
-                <span>{item.label}</span>
-              </Link>
-            );
-          }
-
           return (
-            <button key={item.label} type="button" className={className}>
+            <Link key={item.id} href={item.href} className={className}>
               <Icon size={24} aria-hidden="true" />
-              <span>{item.label}</span>
-            </button>
+              <span>{messages[item.labelKey]}</span>
+            </Link>
           );
         })}
       </div>

@@ -7,6 +7,9 @@ export const contentCard =
 export const recipeCard =
   "overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-md shadow-orange-950/5";
 
+export const recipePreviewCard =
+  "flex h-full flex-col overflow-hidden rounded-[1.375rem] border border-stone-200/80 bg-white shadow-sm shadow-stone-950/5";
+
 export const buttonPrimary =
   "inline-flex min-h-14 items-center justify-center rounded-2xl bg-emerald-700 px-6 text-base font-semibold text-white shadow-md shadow-emerald-900/15 transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70";
 
