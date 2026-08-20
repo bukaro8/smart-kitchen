@@ -1,6 +1,8 @@
 "use server";
 
 import { auth } from "@/auth";
+import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
 import { callOpenAIRecipeAutofillJson } from "@/server/openai";
 
 const supportedUnits = [
@@ -281,11 +283,13 @@ export async function autofillRecipe(
   formData: FormData,
 ): Promise<RecipeAutofillState> {
   const session = await auth();
+  const locale = await getLocale();
+  const actionMessages = getMessages(locale).actions;
 
   if (!session?.user) {
     return {
       success: false,
-      error: "Inicia sesión para autocompletar la receta.",
+      error: actionMessages.signInToAutofill,
     };
   }
 
@@ -372,8 +376,7 @@ export async function autofillRecipe(
     if (!recipe || validationFailureReason) {
       return {
         success: false,
-        error:
-          "No se pudo autocompletar la receta. Puedes rellenarla manualmente.",
+        error: actionMessages.autofillFailed,
       };
     }
 
@@ -384,7 +387,7 @@ export async function autofillRecipe(
   } catch {
     return {
       success: false,
-      error: "No se pudo autocompletar la receta. Puedes rellenarla manualmente.",
+      error: actionMessages.autofillFailed,
     };
   }
 }

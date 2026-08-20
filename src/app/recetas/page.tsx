@@ -24,7 +24,9 @@ export default async function RecipesPage() {
   }
 
   const locale = await getLocale();
-  const messages = getMessages(locale).common;
+  const allMessages = getMessages(locale);
+  const messages = allMessages.common;
+  const recipeMessages = allMessages.recipes;
 
   const recipes = await prisma.recipe.findMany({
     where: { userId: session.user.id },
@@ -44,10 +46,10 @@ export default async function RecipesPage() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h1 className="text-3xl font-semibold tracking-normal text-stone-950 sm:text-4xl">
-                Recetas
+                {recipeMessages.title}
               </h1>
               <p className="mt-3 text-lg text-stone-700">
-                Todas tus comidas guardadas
+                {recipeMessages.subtitle}
               </p>
             </div>
             <Link
@@ -61,7 +63,7 @@ export default async function RecipesPage() {
 
         {recipes.length > 0 ? (
           <section
-            aria-label="Lista de recetas"
+            aria-label={recipeMessages.recipeListLabel}
             className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
           >
             {recipes.map((recipe, index) => (
@@ -98,9 +100,9 @@ export default async function RecipesPage() {
         ) : (
           <section className="rounded-[2rem] bg-white/70 px-5 py-8 text-center ring-1 ring-orange-100">
             <p className="text-xl font-semibold text-stone-800">
-              No tienes recetas todavía.
+              {recipeMessages.noRecipes}
             </p>
-            <LoadStarterRecipesButton />
+            <LoadStarterRecipesButton locale={locale} />
           </section>
         )}
       </div>

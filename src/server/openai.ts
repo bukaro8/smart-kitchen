@@ -53,15 +53,6 @@ const recipeAutofillSchema = {
   },
 };
 
-const recipeNutritionSchema = {
-  type: "object",
-  additionalProperties: false,
-  required: ["caloriesPer100g"],
-  properties: {
-    caloriesPer100g: { type: "number" },
-  },
-};
-
 function logDevelopment(label: string, details: Record<string, unknown>) {
   if (process.env.NODE_ENV === "development") {
     console.info(label, details);
@@ -126,18 +117,6 @@ export async function callOpenAIRecipeAutofillJson(
     schema: recipeAutofillSchema,
     schemaName: "mesamate_recipe_autofill",
     logPrefix: "AI AUTOFILL",
-  });
-}
-
-export async function callOpenAINutritionEstimateJson(
-  messages: OpenAIMessage[],
-): Promise<OpenAIJsonResult> {
-  return callOpenAIJson({
-    messages,
-    maxOutputTokens: 200,
-    schema: recipeNutritionSchema,
-    schemaName: "mesamate_nutrition_estimate",
-    logPrefix: "AI NUTRITION",
   });
 }
 

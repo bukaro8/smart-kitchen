@@ -3,6 +3,8 @@ import Image from "next/image";
 
 import { auth } from "@/auth";
 import { GoogleSignInButton } from "@/components/auth/auth-actions";
+import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
 import { contentCard } from "@/lib/ui-styles";
 
 export default async function LoginPage() {
@@ -11,6 +13,9 @@ export default async function LoginPage() {
   if (session?.user) {
     redirect("/");
   }
+
+  const locale = await getLocale();
+  const messages = getMessages(locale).login;
 
   return (
     <main className="flex min-h-dvh items-center justify-center bg-[#fff8ef] px-5 py-8 text-stone-950">
@@ -29,15 +34,14 @@ export default async function LoginPage() {
             <span className="text-orange-500">Mate</span>
           </p>
           <h1 className="mt-3 text-3xl font-semibold sm:text-4xl">
-            ¿Qué cocinamos hoy?
+            {messages.title}
           </h1>
           <p className="mt-3 text-balance text-lg leading-7 text-stone-700">
-            Entra para ver tus comidas, despensa e historial separados de otros
-            usuarios.
+            {messages.description}
           </p>
         </div>
 
-        <GoogleSignInButton />
+        <GoogleSignInButton locale={locale} />
       </section>
     </main>
   );

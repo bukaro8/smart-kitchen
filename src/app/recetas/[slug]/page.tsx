@@ -8,16 +8,8 @@ import {
 } from "@/components/recipes/recipe-detail-page";
 import { getCategoryLabel } from "@/i18n/category-labels";
 import { getLocale } from "@/i18n/get-locale";
-import { getMessages } from "@/i18n/get-messages";
+import { formatMessage, getMessages } from "@/i18n/get-messages";
 import { prisma } from "@/server/db";
-
-const fallbackSteps = [
-  "Prepara todos los ingredientes antes de empezar.",
-  "Cocina la base de verduras o salsa.",
-  "Añade el ingrediente principal y cocina hasta que esté listo.",
-  "Ajusta sal y especias al gusto.",
-  "Sirve caliente.",
-];
 
 type RecipePageProps = {
   params: Promise<{
@@ -25,35 +17,42 @@ type RecipePageProps = {
   }>;
 };
 
-function formatNumber(value: number) {
-  return Number.isInteger(value)
-    ? String(value)
-    : String(value).replace(".", ",");
+function formatNumber(value: number, locale: "es" | "en") {
+  return new Intl.NumberFormat(locale === "es" ? "es-ES" : "en-GB", {
+    maximumFractionDigits: 2,
+  }).format(value);
 }
 
-function buildIngredientText(recipeIngredient: {
+function buildIngredientText(
+  recipeIngredient: {
   quantity: number | null;
   unit: string | null;
   note: string | null;
   ingredient: {
     nameEs: string;
   };
-}) {
+  },
+  locale: "es" | "en",
+  ingredientWithNote: string,
+) {
   const name = recipeIngredient.ingredient.nameEs;
 
   if (recipeIngredient.note) {
-    return `${recipeIngredient.note} de ${name}`;
+    return formatMessage(ingredientWithNote, {
+      note: recipeIngredient.note,
+      name,
+    });
   }
 
   const quantity = recipeIngredient.quantity;
   const unit = recipeIngredient.unit;
 
   if (quantity && unit) {
-    return `${formatNumber(quantity)}${unit === "unidad" ? " " : ""}${unit} ${name}`;
+    return `${formatNumber(quantity, locale)}${unit === "unidad" ? " " : ""}${unit} ${name}`;
   }
 
   if (quantity) {
-    return `${formatNumber(quantity)} ${name}`;
+    return `${formatNumber(quantity, locale)} ${name}`;
   }
 
   return name;
@@ -73,7 +72,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
   }
 
   const locale = await getLocale();
-  const messages = getMessages(locale).common;
+  const allMessages = getMessages(locale);
+  const messages = allMessages.common;
+  const detailMessages = allMessages.recipeDetail;
 
   const { slug } = await params;
 
@@ -116,9 +117,11 @@ export default async function RecipePage({ params }: RecipePageProps) {
     return (
       <main className="flex min-h-dvh items-center justify-center bg-[#fff8ef] px-5 py-10 text-stone-950">
         <section className="w-full max-w-md rounded-[2rem] bg-white/80 p-7 text-center shadow-sm ring-1 ring-orange-100">
-          <h1 className="text-3xl font-semibold">Receta no encontrada</h1>
+          <h1 className="text-3xl font-semibold">
+            {detailMessages.notFoundTitle}
+          </h1>
           <p className="mt-3 text-lg text-stone-700">
-            No existe esta receta en tu cocina.
+            {detailMessages.notFoundDescription}
           </p>
           <Link
             href="/"
@@ -137,21 +140,29 @@ export default async function RecipePage({ params }: RecipePageProps) {
     category: getCategoryLabel(recipe.category, locale),
     editHref: `/recetas/${slug}/editar`,
     image: recipe.imageUrl ?? "/images/meals/pollo-curry.svg",
-    description: recipe.descriptionEs ?? "Receta sencilla para cocinar hoy.",
+    description: recipe.descriptionEs ?? detailMessages.fallbackDescription,
     info: [
       recipe.caloriesPer100g === null
         ? messages.noData
         : `${recipe.caloriesPer100g} kcal / 100g`,
       recipe.proteinPer100g === null
         ? messages.noData
-        : `${recipe.proteinPer100g}g proteína / 100g`,
+        : formatMessage(detailMessages.proteinPer100g, {
+            value: recipe.proteinPer100g,
+          }),
       recipe.prepTimeMinutes
         ? `${recipe.prepTimeMinutes} min`
         : messages.noData,
       recipe.difficulty ?? messages.noData,
     ],
-    ingredients: recipe.recipeIngredients.map(buildIngredientText),
-    steps: fallbackSteps,
+    ingredients: recipe.recipeIngredients.map((ingredient) =>
+      buildIngredientText(
+        ingredient,
+        locale,
+        detailMessages.ingredientWithNote,
+      ),
+    ),
+    steps: [...detailMessages.fallbackSteps],
   };
 
   return <RecipeDetailPage recipe={detailRecipe} locale={locale} />;

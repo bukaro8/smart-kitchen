@@ -19,19 +19,13 @@ import {
 } from "@/app/actions/recipes";
 import { RECIPE_CATEGORIES } from "@/constants/recipe-categories";
 import ingredientsData from "@/data/ingredients.json";
+import { getCategoryLabel } from "@/i18n/category-labels";
+import type { AppLocale, MessageDictionary } from "@/i18n/config";
+import { getMessages } from "@/i18n/get-messages";
 import { buttonPrimary, fieldInput, fieldTextarea } from "@/lib/ui-styles";
 
 const unitOptions = ["g", "ml", "unidad", "lata", "cucharada", "cucharadita"];
 const minimumIngredientRows = 3;
-const autofillLoadingMessages = [
-  "👨‍🍳 Preparando la receta...",
-  "🥕 Buscando ingredientes...",
-  "🍅 Refinando lista de ingredientes...",
-  "🥑 Actualizando lista de ingredientes...",
-  "🌽 Escribiendo lista de ingredientes...",
-  "📊 Calculando calorías...",
-  "🍽️ Casi listo...",
-];
 
 export type IngredientFormRow = {
   ingredientId?: string | null;
@@ -75,7 +69,13 @@ export type RecipeFormValues = {
   ingredients?: string;
 };
 
-function SubmitButton({ label }: { label: string }) {
+function SubmitButton({
+  label,
+  pendingLabel,
+}: {
+  label: string;
+  pendingLabel: string;
+}) {
   const { pending } = useFormStatus();
 
   return (
@@ -84,7 +84,7 @@ function SubmitButton({ label }: { label: string }) {
       disabled={pending}
       className={`${buttonPrimary} text-lg`}
     >
-      {pending ? "Guardando..." : label}
+      {pending ? pendingLabel : label}
     </button>
   );
 }
@@ -146,12 +146,24 @@ function normalizeSearchValue(value: string) {
     .trim();
 }
 
-function getCurrentUiLanguage(): "es" | "en" {
-  return "es";
+function getIngredientDisplayName(ingredient: KnownIngredient) {
+  return ingredient.nameEs;
 }
 
-function getIngredientDisplayName(ingredient: KnownIngredient) {
-  return getCurrentUiLanguage() === "en" ? ingredient.nameEn : ingredient.nameEs;
+function getUnitLabel(
+  unit: string,
+  messages: MessageDictionary["recipeForm"],
+) {
+  const labels: Record<string, string> = {
+    g: messages.gramUnit,
+    ml: messages.millilitreUnit,
+    unidad: messages.itemUnit,
+    lata: messages.canUnit,
+    cucharada: messages.tablespoonUnit,
+    cucharadita: messages.teaspoonUnit,
+  };
+
+  return labels[unit] ?? unit;
 }
 
 function getIngredientSearchValues(ingredient: KnownIngredient) {
@@ -226,7 +238,13 @@ function Field({
   );
 }
 
-function CookingAutofillLoader({ message }: { message: string }) {
+function CookingAutofillLoader({
+  helperText,
+  message,
+}: {
+  helperText: string;
+  message: string;
+}) {
   return (
     <div
       aria-live="polite"
@@ -250,7 +268,7 @@ function CookingAutofillLoader({ message }: { message: string }) {
         <div className="min-w-0">
           <p className="text-base font-bold text-stone-900">{message}</p>
           <p className="mt-1 text-sm font-medium text-stone-600">
-            Puede tardar unos segundos. Puedes seguir editando la receta.
+            {helperText}
           </p>
         </div>
       </div>
@@ -259,12 +277,16 @@ function CookingAutofillLoader({ message }: { message: string }) {
 }
 
 export function CreateRecipeForm({
+  locale,
   mode = "create",
   initialValues = {},
 }: {
+  locale: AppLocale;
   mode?: "create" | "edit";
   initialValues?: RecipeFormValues;
 }) {
+  const messages = getMessages(locale);
+  const formMessages = messages.recipeForm;
   const initialState: CreateRecipeState = {};
   const action = mode === "edit" ? updateRecipe : createRecipe;
   const [state, formAction] = useActionState(action, initialState);
@@ -303,12 +325,12 @@ export function CreateRecipeForm({
     const intervalId = window.setInterval(() => {
       setAutofillMessageIndex(
         (currentIndex) =>
-          (currentIndex + 1) % autofillLoadingMessages.length,
+          (currentIndex + 1) % formMessages.autofillLoadingMessages.length,
       );
     }, 2500);
 
     return () => window.clearInterval(intervalId);
-  }, [isAutofilling]);
+  }, [formMessages.autofillLoadingMessages.length, isAutofilling]);
 
   function addIngredientRow() {
     setIngredientRows((currentRows) => [
@@ -459,14 +481,14 @@ export function CreateRecipeForm({
 
       <div className="grid gap-5 md:grid-cols-[1fr_1fr_auto] md:items-end">
         <Field
-          label="Nombre de la receta"
+          label={formMessages.recipeNameEs}
           name="nameEs"
           value={nameEs}
           onChange={setNameEs}
           required
         />
         <Field
-          label="Nombre en inglés"
+          label={formMessages.recipeNameEn}
           name="nameEn"
           value={nameEn}
           onChange={setNameEn}
@@ -482,19 +504,20 @@ export function CreateRecipeForm({
             className={isAutofilling ? "motion-safe:animate-spin" : ""}
             aria-hidden="true"
           />
-          {isAutofilling ? "Autorrellenando..." : "AutoRellenar"}
+          {isAutofilling ? formMessages.autofilling : formMessages.autofill}
         </button>
       </div>
 
       {isAutofilling ? (
         <CookingAutofillLoader
-          message={autofillLoadingMessages[autofillMessageIndex]}
+          message={formMessages.autofillLoadingMessages[autofillMessageIndex]}
+          helperText={formMessages.autofillWait}
         />
       ) : null}
 
       <label className="space-y-2">
         <span className="text-base font-semibold text-stone-800">
-          Descripción
+          {formMessages.description}
         </span>
         <textarea
           name="descriptionEs"
@@ -507,13 +530,13 @@ export function CreateRecipeForm({
 
       <label className="space-y-3">
         <span className="text-base font-semibold text-stone-800">
-          Foto de la receta
+          {formMessages.recipePhoto}
         </span>
         {initialValues.imageUrl ? (
           <div className="relative aspect-[16/9] w-full max-w-md overflow-hidden rounded-3xl bg-orange-50 ring-1 ring-orange-100">
             <Image
               src={initialValues.imageUrl}
-              alt="Foto actual de la receta"
+              alt={formMessages.currentPhotoAlt}
               fill
               sizes="(min-width: 768px) 448px, 90vw"
               className="object-cover"
@@ -527,20 +550,20 @@ export function CreateRecipeForm({
           className="block min-h-14 w-full rounded-2xl border border-orange-100 bg-white/80 px-4 py-3 text-base font-semibold text-stone-700 file:mr-4 file:rounded-xl file:border-0 file:bg-emerald-700 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
         />
         <p className="text-sm font-medium text-stone-500">
-          JPG, PNG o WebP. Máximo 5 MB. Puedes guardar la receta sin foto.
+          {formMessages.imageHelp}
         </p>
       </label>
 
       <div className="grid gap-5 md:grid-cols-2">
         <Field
-          label="Tiempo en minutos"
+          label={formMessages.prepTime}
           name="prepTimeMinutes"
           type="number"
           value={prepTimeMinutes}
           onChange={setPrepTimeMinutes}
         />
         <Field
-          label="Dificultad"
+          label={formMessages.difficulty}
           name="difficulty"
           value={difficulty}
           onChange={setDifficulty}
@@ -549,7 +572,7 @@ export function CreateRecipeForm({
 
       <label className="space-y-2">
         <span className="text-base font-semibold text-stone-800">
-          Categoría
+          {formMessages.category}
         </span>
         <select
           name="category"
@@ -559,7 +582,7 @@ export function CreateRecipeForm({
         >
           {RECIPE_CATEGORIES.map((category) => (
             <option key={category} value={category}>
-              {category}
+              {getCategoryLabel(category, locale)}
             </option>
           ))}
         </select>
@@ -567,7 +590,7 @@ export function CreateRecipeForm({
 
       {autofillSucceeded ? (
         <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
-          Receta sugerida por IA. Puedes ajustarla manualmente.
+          {formMessages.aiSuggestion}
         </p>
       ) : null}
 
@@ -575,11 +598,10 @@ export function CreateRecipeForm({
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-base font-semibold text-stone-800">
-              Ingredientes
+              {formMessages.ingredients}
             </h2>
             <p className="mt-1 text-sm font-medium text-stone-500">
-              Añade al menos un ingrediente. La cantidad y la unidad son
-              opcionales.
+              {formMessages.ingredientsHelp}
             </p>
           </div>
         </div>
@@ -597,7 +619,7 @@ export function CreateRecipeForm({
               />
               <label className="space-y-2">
                 <span className="text-sm font-semibold text-stone-700">
-                  Ingrediente
+                  {formMessages.ingredient}
                 </span>
                 <div className="relative">
                   <input
@@ -617,7 +639,11 @@ export function CreateRecipeForm({
                         120,
                       );
                     }}
-                    placeholder={index === 0 ? "pollo" : "ingrediente"}
+                    placeholder={
+                      index === 0
+                        ? formMessages.ingredientExample
+                        : formMessages.ingredientPlaceholder
+                    }
                     autoComplete="off"
                     className={fieldInput}
                   />
@@ -637,14 +663,17 @@ export function CreateRecipeForm({
                             >
                               <span>{getIngredientDisplayName(suggestion)}</span>
                               <span className="shrink-0 text-xs font-bold text-stone-400">
-                                {suggestion.defaultUnit}
+                                {getUnitLabel(
+                                  suggestion.defaultUnit,
+                                  formMessages,
+                                )}
                               </span>
                             </button>
                           ),
                         )
                       ) : (
                         <p className="px-4 py-3 text-sm font-medium text-stone-500">
-                          Usar ingrediente escrito
+                          {formMessages.useTypedIngredient}
                         </p>
                       )}
                     </div>
@@ -654,7 +683,7 @@ export function CreateRecipeForm({
 
               <label className="space-y-2">
                 <span className="text-sm font-semibold text-stone-700">
-                  Cantidad
+                  {formMessages.quantity}
                 </span>
                 <input
                   name="ingredientQuantity"
@@ -673,7 +702,7 @@ export function CreateRecipeForm({
 
               <label className="space-y-2">
                 <span className="text-sm font-semibold text-stone-700">
-                  Unidad
+                  {formMessages.unit}
                 </span>
                 {ingredient.ingredientId ? (
                   <>
@@ -683,7 +712,9 @@ export function CreateRecipeForm({
                       value={ingredient.unit}
                     />
                     <div className="flex min-h-14 items-center rounded-2xl border border-orange-100 bg-orange-50/70 px-4 text-base font-semibold text-stone-700">
-                      {ingredient.unit || "Sin unidad"}
+                      {ingredient.unit
+                        ? getUnitLabel(ingredient.unit, formMessages)
+                        : formMessages.noUnit}
                     </div>
                   </>
                 ) : (
@@ -697,10 +728,10 @@ export function CreateRecipeForm({
                     }
                     className={fieldInput}
                   >
-                    <option value="">Sin unidad</option>
+                    <option value="">{formMessages.noUnit}</option>
                     {unitOptions.map((unit) => (
                       <option key={unit} value={unit}>
-                        {unit}
+                        {getUnitLabel(unit, formMessages)}
                       </option>
                     ))}
                   </select>
@@ -712,7 +743,7 @@ export function CreateRecipeForm({
                   <button
                     type="button"
                     onClick={() => removeIngredientRow(ingredient.id)}
-                    aria-label="Quitar ingrediente"
+                    aria-label={formMessages.removeIngredient}
                     className="flex size-12 items-center justify-center rounded-2xl border border-red-100 bg-white/80 text-red-700 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <Trash2 size={20} aria-hidden="true" />
@@ -730,7 +761,7 @@ export function CreateRecipeForm({
             className="inline-flex min-h-12 items-center gap-2 rounded-2xl border border-orange-100 bg-white/80 px-4 text-base font-semibold text-stone-700 transition hover:bg-white"
           >
             <Plus size={19} aria-hidden="true" />
-            Añadir ingrediente
+            {formMessages.addIngredient}
           </button>
         </div>
       </section>
@@ -748,7 +779,12 @@ export function CreateRecipeForm({
 
       <div className="flex justify-end">
         <SubmitButton
-          label={mode === "edit" ? "Guardar cambios" : "Guardar receta"}
+          label={
+            mode === "edit"
+              ? formMessages.saveChanges
+              : formMessages.saveRecipe
+          }
+          pendingLabel={messages.common.saving}
         />
       </div>
     </form>

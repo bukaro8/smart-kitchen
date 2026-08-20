@@ -10,3 +10,12 @@ const messagesByLocale = {
 export function getMessages(locale: AppLocale): MessageDictionary {
   return messagesByLocale[locale];
 }
+
+export function formatMessage(
+  message: string,
+  values: Record<string, string | number>,
+) {
+  return message.replace(/\{(\w+)\}/g, (placeholder, key: string) =>
+    Object.hasOwn(values, key) ? String(values[key]) : placeholder,
+  );
+}

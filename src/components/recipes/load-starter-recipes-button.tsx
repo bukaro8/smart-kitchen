@@ -7,10 +7,13 @@ import {
   loadStarterRecipes,
   type LoadStarterRecipesState,
 } from "@/app/actions/starter-recipes";
+import type { AppLocale } from "@/i18n/config";
+import { getMessages } from "@/i18n/get-messages";
 import { buttonPrimary } from "@/lib/ui-styles";
 
-function SubmitButton() {
+function SubmitButton({ locale }: { locale: AppLocale }) {
   const { pending } = useFormStatus();
+  const messages = getMessages(locale).recipes;
 
   return (
     <button
@@ -18,12 +21,12 @@ function SubmitButton() {
       disabled={pending}
       className={`${buttonPrimary} mt-5 text-lg`}
     >
-      {pending ? "Cargando..." : "Cargar recetas iniciales"}
+      {pending ? messages.loadingStarterRecipes : messages.loadStarterRecipes}
     </button>
   );
 }
 
-export function LoadStarterRecipesButton() {
+export function LoadStarterRecipesButton({ locale }: { locale: AppLocale }) {
   const initialState: LoadStarterRecipesState = {};
   const [state, formAction] = useActionState(
     loadStarterRecipes,
@@ -32,7 +35,7 @@ export function LoadStarterRecipesButton() {
 
   return (
     <form action={formAction}>
-      <SubmitButton />
+      <SubmitButton locale={locale} />
       {state.message ? (
         <p className="mt-3 text-sm font-semibold text-emerald-700">
           {state.message}

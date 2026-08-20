@@ -12,6 +12,7 @@ import {
   getDateKey,
 } from "@/i18n/date-format";
 import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
 import {
   buttonSecondary,
   contentCard,
@@ -27,6 +28,7 @@ export default async function HistoryPage() {
   }
 
   const locale = await getLocale();
+  const messages = getMessages(locale);
 
   const mealHistory = await prisma.mealHistory.findMany({
     where: { userId: session.user.id },
@@ -78,11 +80,10 @@ export default async function HistoryPage() {
             </span>
             <div>
               <h1 className="text-3xl font-semibold tracking-normal text-stone-950 sm:text-4xl">
-                Historial
+                {messages.history.title}
               </h1>
               <p className="mt-2 text-base text-stone-700 sm:text-lg">
-                Las recetas que has cocinado, de la más reciente a la más
-                antigua.
+                {messages.history.subtitle}
               </p>
             </div>
           </div>
@@ -147,16 +148,16 @@ export default async function HistoryPage() {
               <History size={30} aria-hidden="true" />
             </span>
             <h2 className="mt-5 text-xl font-semibold text-stone-900 sm:text-2xl">
-              Todavía no has cocinado ninguna receta.
+              {messages.history.emptyTitle}
             </h2>
             <p className="mx-auto mt-2 max-w-md text-base leading-7 text-stone-600">
-              Cuando pulses “Cocinar hoy”, aparecerá aquí.
+              {messages.history.emptyDescription}
             </p>
             <Link
               href="/recetas"
               className={`${buttonSecondary} mt-6 w-fit`}
             >
-              Ver recetas
+              {messages.common.viewRecipes}
             </Link>
           </section>
         )}

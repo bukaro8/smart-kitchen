@@ -52,7 +52,7 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
   }
 
   const locale = await getLocale();
-  const messages = getMessages(locale).common;
+  const messages = getMessages(locale);
 
   const { slug } = await params;
   const recipe = await prisma.recipe.findUnique({
@@ -95,15 +95,17 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
     return (
       <main className="flex min-h-dvh items-center justify-center bg-[#fff8ef] px-5 py-10 text-stone-950">
         <section className="w-full max-w-md rounded-[2rem] bg-white/80 p-7 text-center shadow-sm ring-1 ring-orange-100">
-          <h1 className="text-3xl font-semibold">Receta no encontrada</h1>
+          <h1 className="text-3xl font-semibold">
+            {messages.recipeDetail.notFoundTitle}
+          </h1>
           <p className="mt-3 text-lg text-stone-700">
-            No existe esta receta en tu cocina.
+            {messages.recipeDetail.notFoundDescription}
           </p>
           <Link
             href="/recetas"
             className={`${buttonSecondary} mt-6`}
           >
-            {messages.back}
+            {messages.common.back}
           </Link>
         </section>
       </main>
@@ -118,19 +120,20 @@ export default async function EditRecipePage({ params }: EditRecipePageProps) {
             href={`/recetas/${slug}`}
             className={`${buttonSecondary} mb-4 min-h-12 px-4`}
           >
-            {messages.back}
+            {messages.common.back}
           </Link>
           <h1 className="text-3xl font-semibold tracking-normal text-stone-950 sm:text-4xl">
-            Editar receta
+            {messages.recipes.editTitle}
           </h1>
           <p className="mt-3 text-lg text-stone-700">
-            Actualiza los datos de esta comida.
+            {messages.recipes.editSubtitle}
           </p>
         </header>
 
         <section className={contentCard}>
           <CreateRecipeForm
             mode="edit"
+            locale={locale}
             initialValues={{
               recipeId: recipe.id,
               nameEs: recipe.nameEs,

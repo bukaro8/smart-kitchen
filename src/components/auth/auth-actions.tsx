@@ -3,7 +3,9 @@ import type { AppLocale } from "@/i18n/config";
 import { getMessages } from "@/i18n/get-messages";
 import { buttonPrimary, buttonSecondary } from "@/lib/ui-styles";
 
-export function GoogleSignInButton() {
+export function GoogleSignInButton({ locale }: { locale: AppLocale }) {
+  const messages = getMessages(locale).login;
+
   return (
     <form
       action={async () => {
@@ -15,7 +17,7 @@ export function GoogleSignInButton() {
         type="submit"
         className={`${buttonPrimary} w-full text-lg`}
       >
-        Entrar con Google
+        {messages.signInWithGoogle}
       </button>
     </form>
   );

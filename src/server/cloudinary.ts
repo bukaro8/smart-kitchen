@@ -1,5 +1,8 @@
 import crypto from "node:crypto";
 
+import type { AppLocale } from "@/i18n/config";
+import { getMessages } from "@/i18n/get-messages";
+
 const acceptedImageTypes = ["image/jpeg", "image/png", "image/webp"];
 const maxImageSize = 5 * 1024 * 1024;
 
@@ -40,8 +43,10 @@ function signUploadParams(params: Record<string, string>, apiSecret: string) {
 
 export async function uploadRecipeImageFromFormData(
   formData: FormData,
+  locale: AppLocale,
   key = "image",
 ): Promise<RecipeImageUploadResult> {
+  const messages = getMessages(locale).actions;
   const value = formData.get(key);
 
   if (!(value instanceof File) || value.size === 0) {
@@ -49,17 +54,17 @@ export async function uploadRecipeImageFromFormData(
   }
 
   if (!acceptedImageTypes.includes(value.type)) {
-    return { error: "La foto debe ser JPG, PNG o WebP." };
+    return { error: messages.imageType };
   }
 
   if (value.size > maxImageSize) {
-    return { error: "La foto no puede superar 5 MB." };
+    return { error: messages.imageTooLarge };
   }
 
   const config = getCloudinaryConfig();
 
   if (!config) {
-    return { error: "Cloudinary no está configurado para subir fotos." };
+    return { error: messages.imageUploadNotConfigured };
   }
 
   const timestamp = Math.floor(Date.now() / 1000).toString();
@@ -89,13 +94,13 @@ export async function uploadRecipeImageFromFormData(
   );
 
   if (!response.ok) {
-    return { error: "No se pudo subir la foto. Inténtalo de nuevo." };
+    return { error: messages.imageUploadFailed };
   }
 
   const result = (await response.json()) as { secure_url?: unknown };
 
   if (typeof result.secure_url !== "string") {
-    return { error: "No se pudo guardar la URL de la foto." };
+    return { error: messages.imageUrlMissing };
   }
 
   return { url: result.secure_url };

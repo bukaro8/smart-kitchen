@@ -16,7 +16,7 @@ export default async function NewRecipePage() {
   }
 
   const locale = await getLocale();
-  const messages = getMessages(locale).common;
+  const messages = getMessages(locale);
 
   return (
     <main className="min-h-dvh bg-[#fff8ef] pb-28 text-stone-950">
@@ -26,18 +26,18 @@ export default async function NewRecipePage() {
             href="/recetas"
             className={`${buttonSecondary} mb-4 min-h-12 px-4`}
           >
-            {messages.back}
+            {messages.common.back}
           </Link>
           <h1 className="text-3xl font-semibold tracking-normal text-stone-950 sm:text-4xl">
-            Añadir receta
+            {messages.recipes.newTitle}
           </h1>
           <p className="mt-3 text-lg text-stone-700">
-            Guarda una comida sencilla en tu cocina.
+            {messages.recipes.newSubtitle}
           </p>
         </header>
 
         <section className={contentCard}>
-          <CreateRecipeForm />
+          <CreateRecipeForm locale={locale} />
         </section>
       </div>
 

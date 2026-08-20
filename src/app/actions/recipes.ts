@@ -5,9 +5,10 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { isRecipeCategory } from "@/constants/recipe-categories";
+import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
 import { uploadRecipeImageFromFormData } from "@/server/cloudinary";
 import { prisma } from "@/server/db";
-import { callOpenAINutritionEstimateJson } from "@/server/openai";
 
 export type CreateRecipeState = {
   error?: string;
@@ -46,6 +47,18 @@ function getOptionalInteger(formData: FormData, key: string) {
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
+function getOptionalNonNegativeInteger(formData: FormData, key: string) {
+  const value = getString(formData, key);
+
+  if (!/^\d+$/.test(value)) {
+    return undefined;
+  }
+
+  const parsed = Number(value);
+
+  return Number.isSafeInteger(parsed) ? parsed : undefined;
+}
+
 function getOptionalFloat(value: FormDataEntryValue | null) {
   if (typeof value !== "string" || !value.trim()) {
     return undefined;
@@ -54,20 +67,6 @@ function getOptionalFloat(value: FormDataEntryValue | null) {
   const parsed = Number.parseFloat(value.trim().replace(",", "."));
 
   return Number.isFinite(parsed) ? parsed : undefined;
-}
-
-function optionalNumber(value: unknown) {
-  if (typeof value === "number" && Number.isFinite(value)) {
-    return value;
-  }
-
-  if (typeof value === "string" && value.trim()) {
-    const parsed = Number.parseFloat(value.trim().replace(",", "."));
-
-    return Number.isFinite(parsed) ? parsed : null;
-  }
-
-  return null;
 }
 
 function slugify(value: string) {
@@ -209,64 +208,6 @@ async function replaceRecipeIngredients({
   }
 }
 
-async function estimateCaloriesPer100g({
-  nameEs,
-  descriptionEs,
-  ingredients,
-}: {
-  nameEs: string;
-  descriptionEs: string;
-  ingredients: ParsedIngredient[];
-}) {
-  try {
-    const result = await callOpenAINutritionEstimateJson([
-      {
-        role: "system",
-        content:
-          "Eres un asistente de nutrición para MesaMate. Responde solo JSON válido. Estima caloriesPer100g como número. Usa los ingredientes finales, cantidades y unidades. Considera calorías ocultas probables: aceite usado para freír o sofreír, mantequilla, vino, salsas, caldo, azúcar, queso, ingredientes cremosos y el método de cocción implícito por el nombre de la receta. Prefiere una sobreestimación cautelosa antes que subestimar.",
-      },
-      {
-        role: "user",
-        content: JSON.stringify({
-          recipe: {
-            name: nameEs,
-            description: descriptionEs,
-            ingredients: ingredients.map((ingredient) => ({
-              name: ingredient.nameEs,
-              quantity: ingredient.quantity ?? null,
-              unit: ingredient.unit ?? null,
-            })),
-          },
-          expectedShape: {
-            caloriesPer100g: "number",
-          },
-        }),
-      },
-    ]);
-
-    if (!result.value || typeof result.value !== "object") {
-      return null;
-    }
-
-    const calories = optionalNumber(
-      (result.value as Record<string, unknown>).caloriesPer100g,
-    );
-
-    return calories === null ? null : Math.round(calories);
-  } catch (error) {
-    if (process.env.NODE_ENV === "development") {
-      console.info("AI NUTRITION FALLBACK", {
-        message:
-          error instanceof Error
-            ? error.message
-            : "Could not estimate calories",
-      });
-    }
-
-    return null;
-  }
-}
-
 export async function createRecipe(
   _previousState: CreateRecipeState,
   formData: FormData,
@@ -275,9 +216,11 @@ export async function createRecipe(
 
   const session = await auth();
   const userId = session?.user?.id;
+  const locale = await getLocale();
+  const messages = getMessages(locale).actions;
 
   if (!userId) {
-    return { error: "Inicia sesión para crear una receta." };
+    return { error: messages.signInToCreateRecipe };
   }
 
   const nameEs = getString(formData, "nameEs");
@@ -286,29 +229,24 @@ export async function createRecipe(
   const ingredients = getIngredientRows(formData);
 
   if (!nameEs) {
-    return { error: "El nombre de la receta es obligatorio." };
+    return { error: messages.recipeNameRequired };
   }
 
   if (!isRecipeCategory(category)) {
-    return { error: "Selecciona una categoría válida." };
+    return { error: messages.validCategoryRequired };
   }
 
   if (ingredients.length === 0) {
-    return { error: "Añade al menos un ingrediente." };
+    return { error: messages.ingredientRequired };
   }
 
-  const imageUpload = await uploadRecipeImageFromFormData(formData);
+  const imageUpload = await uploadRecipeImageFromFormData(formData, locale);
 
   if (imageUpload.error) {
     return { error: imageUpload.error };
   }
 
   const slug = await createUniqueSlug(userId, nameEs);
-  const caloriesPer100g = await estimateCaloriesPer100g({
-    nameEs,
-    descriptionEs,
-    ingredients,
-  });
   const recipe = await prisma.recipe.create({
     data: {
       userId,
@@ -317,7 +255,8 @@ export async function createRecipe(
       nameEn: getString(formData, "nameEn") || undefined,
       descriptionEs: descriptionEs || undefined,
       imageUrl: imageUpload.url,
-      caloriesPer100g,
+      caloriesPer100g:
+        getOptionalNonNegativeInteger(formData, "caloriesPer100g") ?? null,
       proteinPer100g: getOptionalInteger(formData, "proteinPer100g"),
       carbsPer100g: getOptionalInteger(formData, "carbsPer100g"),
       fatPer100g: getOptionalInteger(formData, "fatPer100g"),
@@ -347,13 +286,15 @@ export async function updateRecipe(
   const session = await auth();
   const userId = session?.user?.id;
   const recipeId = getString(formData, "recipeId");
+  const locale = await getLocale();
+  const messages = getMessages(locale).actions;
 
   if (!userId) {
-    return { error: "Inicia sesión para editar una receta." };
+    return { error: messages.signInToEditRecipe };
   }
 
   if (!recipeId) {
-    return { error: "No se pudo identificar la receta." };
+    return { error: messages.recipeNotIdentified };
   }
 
   const existingRecipe = await prisma.recipe.findFirst({
@@ -364,11 +305,12 @@ export async function updateRecipe(
     select: {
       id: true,
       slug: true,
+      caloriesPer100g: true,
     },
   });
 
   if (!existingRecipe) {
-    return { error: "No existe esta receta en tu cocina." };
+    return { error: messages.recipeNotFound };
   }
 
   const nameEs = getString(formData, "nameEs");
@@ -377,29 +319,24 @@ export async function updateRecipe(
   const ingredients = getIngredientRows(formData);
 
   if (!nameEs) {
-    return { error: "El nombre de la receta es obligatorio." };
+    return { error: messages.recipeNameRequired };
   }
 
   if (!isRecipeCategory(category)) {
-    return { error: "Selecciona una categoría válida." };
+    return { error: messages.validCategoryRequired };
   }
 
   if (ingredients.length === 0) {
-    return { error: "Añade al menos un ingrediente." };
+    return { error: messages.ingredientRequired };
   }
 
-  const imageUpload = await uploadRecipeImageFromFormData(formData);
+  const imageUpload = await uploadRecipeImageFromFormData(formData, locale);
 
   if (imageUpload.error) {
     return { error: imageUpload.error };
   }
 
   const slug = await createUniqueSlug(userId, nameEs, existingRecipe.id);
-  const caloriesPer100g = await estimateCaloriesPer100g({
-    nameEs,
-    descriptionEs,
-    ingredients,
-  });
 
   await prisma.recipe.update({
     where: {
@@ -411,7 +348,9 @@ export async function updateRecipe(
       nameEn: getString(formData, "nameEn") || null,
       descriptionEs: descriptionEs || null,
       ...(imageUpload.url ? { imageUrl: imageUpload.url } : {}),
-      caloriesPer100g,
+      caloriesPer100g:
+        getOptionalNonNegativeInteger(formData, "caloriesPer100g") ??
+        existingRecipe.caloriesPer100g,
       proteinPer100g: getOptionalInteger(formData, "proteinPer100g") ?? null,
       carbsPer100g: getOptionalInteger(formData, "carbsPer100g") ?? null,
       fatPer100g: getOptionalInteger(formData, "fatPer100g") ?? null,
@@ -443,13 +382,15 @@ export async function deleteRecipe(
   const session = await auth();
   const userId = session?.user?.id;
   const recipeId = getString(formData, "recipeId");
+  const locale = await getLocale();
+  const messages = getMessages(locale).actions;
 
   if (!userId) {
-    return { error: "Inicia sesión para eliminar una receta." };
+    return { error: messages.signInToDeleteRecipe };
   }
 
   if (!recipeId) {
-    return { error: "No se pudo identificar la receta." };
+    return { error: messages.recipeNotIdentified };
   }
 
   const recipe = await prisma.recipe.findFirst({
@@ -464,7 +405,7 @@ export async function deleteRecipe(
   });
 
   if (!recipe) {
-    return { error: "No existe esta receta en tu cocina." };
+    return { error: messages.recipeNotFound };
   }
 
   await prisma.$transaction([

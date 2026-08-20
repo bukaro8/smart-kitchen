@@ -13,7 +13,7 @@ import { UndoMealHistoryButton } from "@/components/home/undo-meal-history-butto
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { LoadStarterRecipesButton } from "@/components/recipes/load-starter-recipes-button";
 import { getLocale } from "@/i18n/get-locale";
-import { getMessages } from "@/i18n/get-messages";
+import { formatMessage, getMessages } from "@/i18n/get-messages";
 import { pageHeader } from "@/lib/ui-styles";
 import { prisma } from "@/server/db";
 
@@ -37,18 +37,25 @@ function getDaysSince(cookedAt: Date) {
   return diffInDays;
 }
 
-function getRelativeCookedAtLabel(cookedAt: Date) {
+function getRelativeCookedAtLabel(
+  cookedAt: Date,
+  labels: {
+    today: string;
+    yesterday: string;
+    daysAgo: string;
+  },
+) {
   const diffInDays = getDaysSince(cookedAt);
 
   if (diffInDays <= 0) {
-    return "Hoy";
+    return labels.today;
   }
 
   if (diffInDays === 1) {
-    return "Ayer";
+    return labels.yesterday;
   }
 
-  return `Hace ${diffInDays} días`;
+  return formatMessage(labels.daysAgo, { days: diffInDays });
 }
 
 type RecommendationRecipe = {
@@ -58,32 +65,38 @@ type RecommendationRecipe = {
 
 function getRecommendationReason(
   recipe: RecommendationRecipe,
-  lastCookedAt?: Date,
-  cookedTodayLabel = "Cocinada hoy",
+  lastCookedAt: Date | undefined,
+  labels: {
+    cookedToday: string;
+    newToYourKitchen: string;
+    cookedYesterday: string;
+    quickAndLight: string;
+    daysNotCooked: string;
+  },
 ) {
   const isFast = recipe.prepTimeMinutes !== null && recipe.prepTimeMinutes <= 35;
   const isLight =
     recipe.caloriesPer100g !== null && recipe.caloriesPer100g <= 180;
 
   if (!lastCookedAt) {
-    return "Nueva en tu cocina";
+    return labels.newToYourKitchen;
   }
 
   const diffInDays = getDaysSince(lastCookedAt);
 
   if (diffInDays <= 0) {
-    return cookedTodayLabel;
+    return labels.cookedToday;
   }
 
   if (diffInDays === 1) {
-    return "La cocinaste ayer";
+    return labels.cookedYesterday;
   }
 
   if (isFast && isLight) {
-    return "Rápida y ligera";
+    return labels.quickAndLight;
   }
 
-  return `Hace ${diffInDays} días que no la cocinas`;
+  return formatMessage(labels.daysNotCooked, { days: diffInDays });
 }
 
 function getRecommendationScore(
@@ -147,7 +160,9 @@ export default async function HomeScreen() {
   }
 
   const locale = await getLocale();
-  const messages = getMessages(locale).common;
+  const allMessages = getMessages(locale);
+  const messages = allMessages.common;
+  const homeMessages = allMessages.home;
 
   const recipes = await prisma.recipe.findMany({
     where: { userId: session.user.id },
@@ -215,7 +230,11 @@ export default async function HomeScreen() {
     recentRecipes.add(meal.recipe.id);
     recentMeals.push({
       id: meal.id,
-      when: getRelativeCookedAtLabel(meal.cookedAt),
+      when: getRelativeCookedAtLabel(meal.cookedAt, {
+        today: messages.today,
+        yesterday: messages.yesterday,
+        daysAgo: homeMessages.daysAgo,
+      }),
       name: meal.recipe.nameEs,
     });
 
@@ -262,14 +281,22 @@ export default async function HomeScreen() {
           prepTimeMinutes: recipe.prepTimeMinutes,
         },
         recipe.lastCookedAt,
-        messages.cookedToday,
+        {
+          cookedToday: messages.cookedToday,
+          newToYourKitchen: homeMessages.newToYourKitchen,
+          cookedYesterday: homeMessages.cookedYesterday,
+          quickAndLight: homeMessages.quickAndLight,
+          daysNotCooked: homeMessages.daysNotCooked,
+        },
       ),
     }));
 
   const firstName = session.user.name?.trim().split(/\s+/)[0];
   const title = firstName
-    ? `Hola ${firstName[0].toUpperCase()}${firstName.slice(1)}, ¿qué cocinamos hoy?`
-    : "Hola, ¿qué cocinamos hoy?";
+    ? formatMessage(homeMessages.greetingWithName, {
+        name: `${firstName[0].toUpperCase()}${firstName.slice(1)}`,
+      })
+    : homeMessages.greeting;
   const avatarUrl = session.user.image;
 
   if (process.env.NODE_ENV === "production") {
@@ -288,26 +315,26 @@ export default async function HomeScreen() {
               <div className="mb-3 flex flex-wrap items-center gap-2.5">
                 <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-800">
                   <ChefHat size={18} aria-hidden="true" />
-                  Hoy en tu cocina
+                  {homeMessages.todayInYourKitchen}
                 </div>
               </div>
               <h1 className="max-w-3xl text-3xl font-semibold tracking-normal text-stone-950 sm:text-4xl">
                 {title}
               </h1>
               <p className="mt-3 text-lg text-stone-700">
-                Comidas sugeridas para hoy
+                {homeMessages.lunchIdeas}
               </p>
             </div>
 
             <div className="flex w-fit flex-wrap items-center gap-3 rounded-3xl bg-white/70 px-3 py-2 ring-1 ring-orange-100">
-              <UserAvatar src={avatarUrl} />
+              <UserAvatar src={avatarUrl} alt={session.user.name ?? ""} />
               <LanguageSelector locale={locale} />
               <SignOutButton locale={locale} />
             </div>
           </div>
         </header>
 
-        <section aria-label="Recomendaciones">
+        <section aria-label={homeMessages.recommendationsLabel}>
           {recommendations.length > 0 ? (
             <HomeRecommendations
               key={locale}
@@ -317,9 +344,9 @@ export default async function HomeScreen() {
           ) : (
             <div className="rounded-[2rem] bg-white/70 px-5 py-8 text-center ring-1 ring-orange-100">
               <p className="text-xl font-semibold text-stone-800">
-                No tienes recetas todavía.
+                {homeMessages.noRecipes}
               </p>
-              <LoadStarterRecipesButton />
+              <LoadStarterRecipesButton locale={locale} />
             </div>
           )}
         </section>
@@ -328,7 +355,7 @@ export default async function HomeScreen() {
           <div className="mb-3 flex items-center gap-2.5">
             <Soup size={22} className="text-orange-500" aria-hidden="true" />
             <h2 className="text-lg font-semibold text-stone-700">
-              Cocinado recientemente
+              {homeMessages.recentlyCooked}
             </h2>
           </div>
 
@@ -348,14 +375,17 @@ export default async function HomeScreen() {
                     </p>
                   </div>
                   {index === 0 ? (
-                    <UndoMealHistoryButton mealHistoryId={meal.id} />
+                    <UndoMealHistoryButton
+                      mealHistoryId={meal.id}
+                      locale={locale}
+                    />
                   ) : null}
                 </div>
               ))}
             </div>
           ) : (
             <p className="rounded-2xl bg-white/55 px-4 py-3 text-sm font-semibold text-stone-600">
-              Aún no has cocinado nada.
+              {homeMessages.nothingCooked}
             </p>
           )}
         </section>

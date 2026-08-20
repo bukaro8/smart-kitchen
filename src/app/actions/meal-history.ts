@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
+import { getLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/get-messages";
 import { prisma } from "@/server/db";
 
 export type CookTodayState = {
@@ -92,13 +94,15 @@ export async function cookToday(
   const session = await auth();
   const userId = session?.user?.id;
   const recipeId = formData.get("recipeId");
+  const locale = await getLocale();
+  const messages = getMessages(locale);
 
   if (!userId) {
-    return { error: "Inicia sesión para guardar la comida." };
+    return { error: messages.actions.signInToSaveMeal };
   }
 
   if (typeof recipeId !== "string" || recipeId.length === 0) {
-    return { error: "No se pudo identificar la receta." };
+    return { error: messages.actions.recipeNotIdentified };
   }
 
   const recipe = await prisma.recipe.findFirst({
@@ -113,7 +117,7 @@ export async function cookToday(
   });
 
   if (!recipe) {
-    return { error: "No existe esta receta en tu cocina." };
+    return { error: messages.actions.recipeNotFound };
   }
 
   const today = getCookingDayRange();
@@ -144,7 +148,7 @@ export async function cookToday(
   revalidatePath("/historial");
   revalidatePath(`/recetas/${recipe.slug}`);
 
-  return { message: "Cocinada hoy" };
+  return { message: messages.common.cookedToday };
 }
 
 export async function undoLatestMealHistory(
@@ -154,13 +158,15 @@ export async function undoLatestMealHistory(
   const session = await auth();
   const userId = session?.user?.id;
   const mealHistoryId = formData.get("mealHistoryId");
+  const locale = await getLocale();
+  const messages = getMessages(locale);
 
   if (!userId) {
-    return { error: "Inicia sesión para modificar el historial." };
+    return { error: messages.actions.signInToEditHistory };
   }
 
   if (typeof mealHistoryId !== "string" || mealHistoryId.length === 0) {
-    return { error: "No se pudo identificar el registro." };
+    return { error: messages.actions.historyEntryNotIdentified };
   }
 
   const latestMealHistory = await prisma.mealHistory.findFirst({
@@ -170,7 +176,7 @@ export async function undoLatestMealHistory(
   });
 
   if (!latestMealHistory || latestMealHistory.id !== mealHistoryId) {
-    return { error: "Solo puedes deshacer el último registro." };
+    return { error: messages.actions.onlyLatestHistoryCanBeUndone };
   }
 
   await prisma.mealHistory.delete({
@@ -180,5 +186,5 @@ export async function undoLatestMealHistory(
   revalidatePath("/");
   revalidatePath("/historial");
 
-  return { message: "Registro eliminado." };
+  return { message: messages.actions.historyEntryRemoved };
 }

@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
+import { getLocale } from "@/i18n/get-locale";
+import { formatMessage, getMessages } from "@/i18n/get-messages";
 import { createStarterRecipesForUser } from "@/server/starter-recipes";
 
 export type LoadStarterRecipesState = {
@@ -17,9 +19,11 @@ export async function loadStarterRecipes(
 
   const session = await auth();
   const userId = session?.user?.id;
+  const locale = await getLocale();
+  const messages = getMessages(locale);
 
   if (!userId) {
-    return { error: "Inicia sesión para cargar recetas." };
+    return { error: messages.actions.signInToLoadStarterRecipes };
   }
 
   const result = await createStarterRecipesForUser(userId);
@@ -28,6 +32,8 @@ export async function loadStarterRecipes(
   revalidatePath("/recetas");
 
   return {
-    message: `${result.recipeCount} recetas iniciales cargadas.`,
+    message: formatMessage(messages.actions.starterRecipesLoaded, {
+      count: result.recipeCount,
+    }),
   };
 }
