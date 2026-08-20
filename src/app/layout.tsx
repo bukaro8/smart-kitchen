@@ -5,8 +5,14 @@ import { getLocale } from "@/i18n/get-locale";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Smart Kitchen",
+  title: "MesaMate",
+  applicationName: "MesaMate",
   description: "Pantalla inicial del MVP Smart Kitchen",
+  appleWebApp: {
+    capable: true,
+    title: "MesaMate",
+    statusBarStyle: "default",
+  },
 };
 
 export default async function RootLayout({
