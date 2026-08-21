@@ -1,0 +1,1864 @@
+{
+  "formatVersion": 1,
+  "recipes": [
+    {
+      "slug": "arroz-con-pollo",
+      "nameEs": "Arroz con pollo",
+      "nameEn": "Chicken & Rice",
+      "descriptionEs": "Arroz con pechuga de pollo y verduras mixtas para una comida completa, sencilla y equilibrada.",
+      "category": "Arroz",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787235211/mesamate/recipes/rg321p80spujjticzb69.png",
+      "caloriesPer100g": 155,
+      "proteinPer100g": 13,
+      "carbsPer100g": 21,
+      "fatPer100g": 3,
+      "prepTimeMinutes": 40,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "pechuga de pollo",
+          "nameEn": "chicken breast",
+          "category": "protein",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "arroz seco",
+          "nameEn": "dry rice",
+          "category": "carb",
+          "quantity": 200,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "verduras mixtas",
+          "nameEn": "mixed vegetables",
+          "category": "vegetable",
+          "quantity": 200,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "caldo de pollo",
+          "nameEn": "chicken stock",
+          "category": "other",
+          "quantity": 500,
+          "unit": "ml",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "aceite de oliva",
+          "nameEn": "olive oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 7
+        }
+      ]
+    },
+    {
+      "slug": "carne-sudada",
+      "nameEs": "Carne sudada",
+      "nameEn": "Beef stew",
+      "descriptionEs": "Carne de res guisada lentamente con patata, tomate, cebolla y especias hasta quedar tierna y jugosa.",
+      "category": "Carne",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787239132/mesamate/recipes/hlqiurxi9moifpecabkt.png",
+      "caloriesPer100g": 175,
+      "proteinPer100g": 17,
+      "carbsPer100g": 12,
+      "fatPer100g": 7,
+      "prepTimeMinutes": 60,
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "nameEs": "carne de res para guisar",
+          "nameEn": "stewing beef",
+          "category": "protein",
+          "quantity": 500,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "patata",
+          "nameEn": "potato",
+          "category": "carb",
+          "quantity": 2,
+          "unit": "unidad",
+          "note": "medianas",
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "tomate",
+          "nameEn": "tomato",
+          "category": "vegetable",
+          "quantity": 2,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "zanahoria",
+          "nameEn": "carrot",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "aceite de oliva",
+          "nameEn": "olive oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "caldo de res",
+          "nameEn": "beef stock",
+          "category": "other",
+          "quantity": 300,
+          "unit": "ml",
+          "note": null,
+          "sortOrder": 8
+        },
+        {
+          "nameEs": "comino",
+          "nameEn": "ground cumin",
+          "category": "spice",
+          "quantity": 1,
+          "unit": "cucharadita",
+          "note": null,
+          "sortOrder": 9
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "slug": "cottage-pie",
+      "nameEs": "Cottage pie",
+      "nameEn": "Cottage pie",
+      "descriptionEs": "Pastel de carne de res con verduras y salsa de tomate, cubierto con purÃ© de patata cremoso y gratinado al horno.",
+      "category": "Carne",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787238843/mesamate/recipes/b2lpo9gudc2lroecfcqm.png",
+      "caloriesPer100g": 150,
+      "proteinPer100g": 9,
+      "carbsPer100g": 14,
+      "fatPer100g": 7,
+      "prepTimeMinutes": 60,
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "nameEs": "Carne de res",
+          "nameEn": "beef mince",
+          "category": "protein",
+          "quantity": 500,
+          "unit": "g",
+          "note": "picada",
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "patata",
+          "nameEn": "potato",
+          "category": "carb",
+          "quantity": 800,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "zanahoria",
+          "nameEn": "carrot",
+          "category": "vegetable",
+          "quantity": 2,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "guisantes",
+          "nameEn": "peas",
+          "category": "vegetable",
+          "quantity": 150,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "tomate triturado",
+          "nameEn": "crushed tomatoes",
+          "category": "vegetable",
+          "quantity": 200,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "caldo de res",
+          "nameEn": "beef stock",
+          "category": "other",
+          "quantity": 250,
+          "unit": "ml",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "leche",
+          "nameEn": "milk",
+          "category": "dairy",
+          "quantity": 100,
+          "unit": "ml",
+          "note": "para el purÃ©",
+          "sortOrder": 8
+        },
+        {
+          "nameEs": "mantequilla",
+          "nameEn": "butter",
+          "category": "fat",
+          "quantity": 30,
+          "unit": "g",
+          "note": "para el purÃ©",
+          "sortOrder": 9
+        },
+        {
+          "nameEs": "salsa Worcestershire",
+          "nameEn": "Worcestershire sauce",
+          "category": "sauce",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 10
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 11
+        },
+        {
+          "nameEs": "pimienta negra",
+          "nameEn": "black pepper",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 12
+        }
+      ]
+    },
+    {
+      "slug": "frijoles-rojos-con-cerdo",
+      "nameEs": "Frijoles rojos con cerdo",
+      "nameEn": "Kidney beans with pork",
+      "descriptionEs": "Un plato familiar y contundente con frijoles rojos, cerdo magro, plÃ¡tano, patata y verduras.",
+      "category": "Legumbres",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787235779/mesamate/recipes/bshgn0cafoexmrzuhkys.png",
+      "caloriesPer100g": 165,
+      "proteinPer100g": 11,
+      "carbsPer100g": 22,
+      "fatPer100g": 4,
+      "prepTimeMinutes": 75,
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "nameEs": "frijoles rojos secos",
+          "nameEn": "dry kidney beans",
+          "category": "legume",
+          "quantity": 220,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "carne magra de cerdo",
+          "nameEn": "lean pork",
+          "category": "protein",
+          "quantity": 150,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "zanahoria",
+          "nameEn": "carrot",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "tomate",
+          "nameEn": "tomato",
+          "category": "vegetable",
+          "quantity": 2,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "plÃ¡tano macho",
+          "nameEn": "plantain",
+          "category": "carb",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": "mediano",
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "patata",
+          "nameEn": "potato",
+          "category": "carb",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": "pequeÃ±a",
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 8
+        },
+        {
+          "nameEs": "comino",
+          "nameEn": "ground cumin",
+          "category": "spice",
+          "quantity": 1,
+          "unit": "cucharadita",
+          "note": null,
+          "sortOrder": 9
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "slug": "hoisin-minced-beef",
+      "nameEs": "Hoisin minced beef",
+      "nameEn": "Hoisin minced beef",
+      "descriptionEs": "Carne picada salteada con salsa hoisin, zanahoria, pimientos y cebolleta; rÃ¡pida, sabrosa y perfecta con arroz o noodles.",
+      "category": "Carne",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787242081/mesamate/recipes/hk6nbcbcds0rzvb2w2re.png",
+      "caloriesPer100g": 170,
+      "proteinPer100g": 13,
+      "carbsPer100g": 10,
+      "fatPer100g": 9,
+      "prepTimeMinutes": 25,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "Carne de res",
+          "nameEn": "beef mince",
+          "category": "protein",
+          "quantity": 500,
+          "unit": "g",
+          "note": "picada",
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "zanahoria",
+          "nameEn": "carrot",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": "en tiras finas",
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "pimiento rojo",
+          "nameEn": "red pepper",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": "en tiras",
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "cebolleta",
+          "nameEn": "spring onion",
+          "category": "vegetable",
+          "quantity": 3,
+          "unit": "unidad",
+          "note": "en rodajas",
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "salsa hoisin",
+          "nameEn": "hoisin sauce",
+          "category": "sauce",
+          "quantity": 3,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "salsa de soja",
+          "nameEn": "soy sauce",
+          "category": "sauce",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "aceite vegetal",
+          "nameEn": "vegetable oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 8
+        }
+      ]
+    },
+    {
+      "slug": "lasagne",
+      "nameEs": "Lasagne",
+      "nameEn": "Lasagne",
+      "descriptionEs": "LasaÃ±a clÃ¡sica con capas de pasta, salsa boloÃ±esa, bechamel y queso gratinado.",
+      "category": "Pasta",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787238190/mesamate/recipes/tzznqfi7qcpyhmmxo71i.png",
+      "caloriesPer100g": 180,
+      "proteinPer100g": 10,
+      "carbsPer100g": 16,
+      "fatPer100g": 9,
+      "prepTimeMinutes": 75,
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "nameEs": "lÃ¡minas de lasaÃ±a",
+          "nameEn": "lasagne sheets",
+          "category": "carb",
+          "quantity": 250,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "Carne de res",
+          "nameEn": "beef mince",
+          "category": "protein",
+          "quantity": 500,
+          "unit": "g",
+          "note": "picada",
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "tomate triturado",
+          "nameEn": "crushed tomatoes",
+          "category": "vegetable",
+          "quantity": 400,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "bechamel",
+          "nameEn": "bÃ©chamel sauce",
+          "category": "sauce",
+          "quantity": 500,
+          "unit": "ml",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "mozzarella",
+          "nameEn": "mozzarella",
+          "category": "dairy",
+          "quantity": 200,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "parmesano",
+          "nameEn": "parmesan",
+          "category": "dairy",
+          "quantity": 50,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 8
+        },
+        {
+          "nameEs": "aceite de oliva",
+          "nameEn": "olive oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 9
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "slug": "lentejas-con-chorizo",
+      "nameEs": "Lentejas con chorizo",
+      "nameEn": "Lentils with chorizo",
+      "descriptionEs": "Un plato caliente y saciante de lentejas con chorizo, verduras y especias, perfecto para una comida casera.",
+      "category": "Legumbres",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787235947/mesamate/recipes/ecp9lnt0xsghsnaetnhu.png",
+      "caloriesPer100g": 152,
+      "proteinPer100g": 11,
+      "carbsPer100g": 16,
+      "fatPer100g": 6,
+      "prepTimeMinutes": 40,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "lentejas cocidas",
+          "nameEn": "cooked lentils",
+          "category": "legume",
+          "quantity": 400,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "chorizo",
+          "nameEn": "chorizo",
+          "category": "protein",
+          "quantity": 100,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "zanahoria",
+          "nameEn": "carrot",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "tomate triturado",
+          "nameEn": "crushed tomatoes",
+          "category": "vegetable",
+          "quantity": 200,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "pimentÃ³n dulce",
+          "nameEn": "sweet paprika",
+          "category": "spice",
+          "quantity": 1,
+          "unit": "cucharadita",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "caldo",
+          "nameEn": "stock",
+          "category": "other",
+          "quantity": 400,
+          "unit": "ml",
+          "note": null,
+          "sortOrder": 8
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 9
+        }
+      ]
+    },
+    {
+      "slug": "noodles-con-pollo",
+      "nameEs": "Noodles con pollo",
+      "nameEn": "Chicken noodles",
+      "descriptionEs": "Noodles salteados con pollo y verduras en una salsa sencilla de soja, perfectos para una comida rÃ¡pida.",
+      "category": "Pasta",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787239069/mesamate/recipes/ehrrrdsmmimft7kh77bd.png",
+      "caloriesPer100g": 160,
+      "proteinPer100g": 12,
+      "carbsPer100g": 18,
+      "fatPer100g": 5,
+      "prepTimeMinutes": 30,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "Pechuga de pollo",
+          "nameEn": "chicken breast",
+          "category": "protein",
+          "quantity": 500,
+          "unit": "g",
+          "note": "en tiras",
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "noodles",
+          "nameEn": "noodles",
+          "category": "carb",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "verduras mixtas",
+          "nameEn": "mixed vegetables",
+          "category": "vegetable",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "salsa de soja",
+          "nameEn": "soy sauce",
+          "category": "sauce",
+          "quantity": 2,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "aceite vegetal",
+          "nameEn": "vegetable oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 6
+        }
+      ]
+    },
+    {
+      "slug": "paella-de-pollo",
+      "nameEs": "Paella de pollo",
+      "nameEn": "Chicken paella",
+      "descriptionEs": "Paella sencilla de pollo con arroz, verduras, caldo y azafrÃ¡n, pensada para una comida familiar.",
+      "category": "Arroz",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787236060/mesamate/recipes/tsg2k4wkbxjbvx0oeb5i.png",
+      "caloriesPer100g": 178,
+      "proteinPer100g": 14,
+      "carbsPer100g": 20,
+      "fatPer100g": 5,
+      "prepTimeMinutes": 45,
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "nameEs": "arroz",
+          "nameEn": "rice",
+          "category": "carb",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "pollo",
+          "nameEn": "chicken",
+          "category": "protein",
+          "quantity": 600,
+          "unit": "g",
+          "note": "troceado",
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "pimiento rojo",
+          "nameEn": "red pepper",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "guisantes",
+          "nameEn": "peas",
+          "category": "vegetable",
+          "quantity": 150,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "tomate triturado",
+          "nameEn": "crushed tomatoes",
+          "category": "vegetable",
+          "quantity": 200,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "caldo de pollo",
+          "nameEn": "chicken stock",
+          "category": "other",
+          "quantity": 900,
+          "unit": "ml",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "aceite de oliva",
+          "nameEn": "olive oil",
+          "category": "fat",
+          "quantity": 2,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 8
+        },
+        {
+          "nameEs": "azafrÃ¡n o colorante",
+          "nameEn": "saffron or food colouring",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": null,
+          "sortOrder": 9
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "slug": "pasta-bolognese",
+      "nameEs": "Pasta bolognese",
+      "nameEn": "Pasta Bolognese",
+      "descriptionEs": "Pasta con una salsa boloÃ±esa casera de carne picada, tomate, cebolla y hierbas.",
+      "category": "Pasta",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787237892/mesamate/recipes/ep3tfuhlsqvxkbacrpkd.png",
+      "caloriesPer100g": 170,
+      "proteinPer100g": 9,
+      "carbsPer100g": 20,
+      "fatPer100g": 6,
+      "prepTimeMinutes": 40,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "Pasta",
+          "nameEn": "pasta",
+          "category": "carb",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "Carne de res",
+          "nameEn": "beef mince",
+          "category": "protein",
+          "quantity": 500,
+          "unit": "g",
+          "note": "picada",
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "tomate triturado",
+          "nameEn": "crushed tomatoes",
+          "category": "vegetable",
+          "quantity": 400,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "zanahoria",
+          "nameEn": "carrot",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "aceite de oliva",
+          "nameEn": "olive oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "orÃ©gano",
+          "nameEn": "oregano",
+          "category": "spice",
+          "quantity": 1,
+          "unit": "cucharadita",
+          "note": null,
+          "sortOrder": 8
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 9
+        }
+      ]
+    },
+    {
+      "slug": "pasta-carbonara",
+      "nameEs": "Pasta Carbonara",
+      "nameEn": "Pasta Carbonara",
+      "descriptionEs": "Pasta carbonara cremosa al estilo clÃ¡sico, preparada con huevo, queso parmesano, panceta y pimienta negra.",
+      "category": "Pasta",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787237757/mesamate/recipes/lvnic3gg3rznjfyrlz94.png",
+      "caloriesPer100g": 210,
+      "proteinPer100g": 11,
+      "carbsPer100g": 19,
+      "fatPer100g": 10,
+      "prepTimeMinutes": 25,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "Pasta",
+          "nameEn": "pasta",
+          "category": "carb",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "huevo",
+          "nameEn": "egg",
+          "category": "protein",
+          "quantity": 3,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "panceta",
+          "nameEn": "pancetta",
+          "category": "protein",
+          "quantity": 150,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "parmesano",
+          "nameEn": "parmesan",
+          "category": "dairy",
+          "quantity": 80,
+          "unit": "g",
+          "note": "rallado",
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "pimienta negra",
+          "nameEn": "black pepper",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "solo si hace falta",
+          "sortOrder": 6
+        }
+      ]
+    },
+    {
+      "slug": "pasta-puttanesca",
+      "nameEs": "Pasta Puttanesca",
+      "nameEn": "Pasta Puttanesca",
+      "descriptionEs": "Pasta con salsa de tomate, aceitunas, alcaparras, anchoas, ajo y un toque de picante.",
+      "category": "Pasta",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787236342/mesamate/recipes/rxwc1ocssdgtjrhcw50t.png",
+      "caloriesPer100g": 160,
+      "proteinPer100g": 6,
+      "carbsPer100g": 22,
+      "fatPer100g": 5,
+      "prepTimeMinutes": 30,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "Pasta",
+          "nameEn": "pasta",
+          "category": "carb",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "tomate triturado",
+          "nameEn": "crushed tomatoes",
+          "category": "vegetable",
+          "quantity": 400,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "aceitunas negras",
+          "nameEn": "black olives",
+          "category": "other",
+          "quantity": 80,
+          "unit": "g",
+          "note": "en rodajas",
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "alcaparras",
+          "nameEn": "capers",
+          "category": "other",
+          "quantity": 2,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "anchoas",
+          "nameEn": "anchovies",
+          "category": "protein",
+          "quantity": 1,
+          "unit": "lata",
+          "note": "escurridas",
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "aceite de oliva",
+          "nameEn": "olive oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "guindilla",
+          "nameEn": "chilli flakes",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "opcional",
+          "sortOrder": 8
+        }
+      ]
+    },
+    {
+      "slug": "pollo-korma",
+      "nameEs": "Pollo Korma",
+      "nameEn": "Chicken korma",
+      "descriptionEs": "Curry suave y cremoso de pollo con leche de coco, cebolla y especias aromÃ¡ticas.",
+      "category": "Pollo",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787238480/mesamate/recipes/gclwq20bvu7rcfzcn1gk.png",
+      "caloriesPer100g": 180,
+      "proteinPer100g": 13,
+      "carbsPer100g": 7,
+      "fatPer100g": 11,
+      "prepTimeMinutes": 35,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "Pechuga de pollo",
+          "nameEn": "chicken breast",
+          "category": "protein",
+          "quantity": 500,
+          "unit": "g",
+          "note": "en dados",
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "leche de coco",
+          "nameEn": "coconut milk",
+          "category": "sauce",
+          "quantity": 1,
+          "unit": "lata",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "yogur griego",
+          "nameEn": "Greek yoghurt",
+          "category": "dairy",
+          "quantity": 100,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "garam masala",
+          "nameEn": "garam masala",
+          "category": "spice",
+          "quantity": 2,
+          "unit": "cucharadita",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "cÃºrcuma",
+          "nameEn": "turmeric",
+          "category": "spice",
+          "quantity": 1,
+          "unit": "cucharadita",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "aceite vegetal",
+          "nameEn": "vegetable oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 8
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 9
+        }
+      ]
+    },
+    {
+      "slug": "pollo-sudado",
+      "nameEs": "Pollo sudado",
+      "nameEn": "Colombian chicken stew",
+      "descriptionEs": "Pollo sudado al estilo casero con patata, tomate, cebolla y verduras, cocinado lentamente hasta quedar tierno.",
+      "category": "Pollo",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787239209/mesamate/recipes/ntiok8eho5verc0mpybt.png",
+      "caloriesPer100g": 135,
+      "proteinPer100g": 12,
+      "carbsPer100g": 10,
+      "fatPer100g": 5,
+      "prepTimeMinutes": 50,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "pollo",
+          "nameEn": "chicken",
+          "category": "protein",
+          "quantity": 700,
+          "unit": "g",
+          "note": "muslos o contramuslos",
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "patata",
+          "nameEn": "potato",
+          "category": "carb",
+          "quantity": 3,
+          "unit": "unidad",
+          "note": "medianas",
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "tomate",
+          "nameEn": "tomato",
+          "category": "vegetable",
+          "quantity": 2,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "zanahoria",
+          "nameEn": "carrot",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "caldo de pollo",
+          "nameEn": "chicken stock",
+          "category": "other",
+          "quantity": 300,
+          "unit": "ml",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "aceite de oliva",
+          "nameEn": "olive oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 8
+        },
+        {
+          "nameEs": "comino",
+          "nameEn": "ground cumin",
+          "category": "spice",
+          "quantity": 1,
+          "unit": "cucharadita",
+          "note": null,
+          "sortOrder": 9
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "slug": "pollo-tikka",
+      "nameEs": "Pollo tikka",
+      "nameEn": "Chicken curry",
+      "descriptionEs": "Curry sencillo y cremoso de pollo con tomate, leche de coco y especias, ideal para una comida entre semana.",
+      "category": "Pollo",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787235557/mesamate/recipes/uou7ysxg3tmuayorxyni.png",
+      "caloriesPer100g": 120,
+      "proteinPer100g": 12,
+      "carbsPer100g": 7,
+      "fatPer100g": 5,
+      "prepTimeMinutes": 35,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "pechuga de pollo",
+          "nameEn": "chicken breast",
+          "category": "protein",
+          "quantity": 500,
+          "unit": "g",
+          "note": "en dados",
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "leche de coco light",
+          "nameEn": "light coconut milk",
+          "category": "sauce",
+          "quantity": 1,
+          "unit": "lata",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "tomate triturado",
+          "nameEn": "crushed tomatoes",
+          "category": "vegetable",
+          "quantity": 200,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "curry en polvo",
+          "nameEn": "curry powder",
+          "category": "spice",
+          "quantity": 2,
+          "unit": "cucharadita",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "aceite vegetal",
+          "nameEn": "vegetable oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 8
+        }
+      ]
+    },
+    {
+      "slug": "raviolli",
+      "nameEs": "Raviolli",
+      "nameEn": "Ravioli",
+      "descriptionEs": "Ravioli servidos con una salsa de tomate sencilla, ajo, hierbas y queso parmesano.",
+      "category": "Pasta",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787237589/mesamate/recipes/onglahn9lwfqwiprlhys.png",
+      "caloriesPer100g": 190,
+      "proteinPer100g": 8,
+      "carbsPer100g": 24,
+      "fatPer100g": 7,
+      "prepTimeMinutes": 25,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "ravioli",
+          "nameEn": "ravioli",
+          "category": "carb",
+          "quantity": 500,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "tomate triturado",
+          "nameEn": "crushed tomatoes",
+          "category": "vegetable",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "aceite de oliva",
+          "nameEn": "olive oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "parmesano",
+          "nameEn": "parmesan",
+          "category": "dairy",
+          "quantity": 40,
+          "unit": "g",
+          "note": "rallado",
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "orÃ©gano",
+          "nameEn": "oregano",
+          "category": "spice",
+          "quantity": 1,
+          "unit": "cucharadita",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 7
+        }
+      ]
+    },
+    {
+      "slug": "salmon-teriyaki",
+      "nameEs": "Salmon teriyaki",
+      "nameEn": "Salmon teriyaki",
+      "descriptionEs": "SalmÃ³n glaseado con salsa teriyaki, ajo y jengibre, acompaÃ±ado de verduras y arroz.",
+      "category": "Pescado",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787238701/mesamate/recipes/iewr8vznnvkoodq9ouav.png",
+      "caloriesPer100g": 190,
+      "proteinPer100g": 14,
+      "carbsPer100g": 13,
+      "fatPer100g": 9,
+      "prepTimeMinutes": 30,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "salmon",
+          "nameEn": "salmon",
+          "category": "protein",
+          "quantity": 400,
+          "unit": "g",
+          "note": "en filetes",
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "salsa teriyaki",
+          "nameEn": "teriyaki sauce",
+          "category": "sauce",
+          "quantity": 4,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "arroz",
+          "nameEn": "rice",
+          "category": "carb",
+          "quantity": 200,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "verduras mixtas",
+          "nameEn": "mixed vegetables",
+          "category": "vegetable",
+          "quantity": 250,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "jengibre",
+          "nameEn": "ginger",
+          "category": "spice",
+          "quantity": 5,
+          "unit": "g",
+          "note": "rallado",
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "aceite vegetal",
+          "nameEn": "vegetable oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 7
+        }
+      ]
+    },
+    {
+      "slug": "seafood-pasta",
+      "nameEs": "Seafood pasta",
+      "nameEn": "Seafood pasta",
+      "descriptionEs": "Pasta con mariscos en una salsa ligera de tomate, ajo, vino blanco y perejil.",
+      "category": "Pasta",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787238113/mesamate/recipes/bxbzwykcgqixmbxwibvi.png",
+      "caloriesPer100g": 170,
+      "proteinPer100g": 10,
+      "carbsPer100g": 20,
+      "fatPer100g": 5,
+      "prepTimeMinutes": 35,
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "nameEs": "Pasta",
+          "nameEn": "pasta",
+          "category": "carb",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "mariscos mixtos",
+          "nameEn": "mixed seafood",
+          "category": "protein",
+          "quantity": 400,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "tomate triturado",
+          "nameEn": "crushed tomatoes",
+          "category": "vegetable",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "vino blanco",
+          "nameEn": "white wine",
+          "category": "other",
+          "quantity": 100,
+          "unit": "ml",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "aceite de oliva",
+          "nameEn": "olive oil",
+          "category": "fat",
+          "quantity": 1,
+          "unit": "cucharada",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "perejil",
+          "nameEn": "parsley",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 8
+        }
+      ]
+    },
+    {
+      "slug": "sopa-de-arroz",
+      "nameEs": "Sopa de arroz",
+      "nameEn": "Rice soup",
+      "descriptionEs": "Sopa casera de arroz con carne, patata y verduras, suave y reconfortante.",
+      "category": "Sopa/Guiso",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787241975/mesamate/recipes/g0eafacmq6llxv6lgggi.png",
+      "caloriesPer100g": 85,
+      "proteinPer100g": 5,
+      "carbsPer100g": 10,
+      "fatPer100g": 3,
+      "prepTimeMinutes": 45,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "Arroz",
+          "nameEn": "rice",
+          "category": "carb",
+          "quantity": 100,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "carne de res",
+          "nameEn": "beef",
+          "category": "protein",
+          "quantity": 250,
+          "unit": "g",
+          "note": "en cubos pequeÃ±os",
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "patata",
+          "nameEn": "potato",
+          "category": "carb",
+          "quantity": 2,
+          "unit": "unidad",
+          "note": "medianas",
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "zanahoria",
+          "nameEn": "carrot",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "caldo de res",
+          "nameEn": "beef stock",
+          "category": "other",
+          "quantity": 1000,
+          "unit": "ml",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 8
+        }
+      ]
+    },
+    {
+      "slug": "sopa-de-lentejas",
+      "nameEs": "Sopa de Lentejas",
+      "nameEn": "Lentil soup",
+      "descriptionEs": "Sopa de lentejas con verduras y patata, sencilla, nutritiva y perfecta para una comida casera.",
+      "category": "Sopa/Guiso",
+      "imageUrl": "https://res.cloudinary.com/dou4gboud/image/upload/v1787238291/mesamate/recipes/zchczjf45g19ff9klw3n.png",
+      "caloriesPer100g": 110,
+      "proteinPer100g": 6,
+      "carbsPer100g": 16,
+      "fatPer100g": 2,
+      "prepTimeMinutes": 45,
+      "difficulty": "FÃ¡cil",
+      "ingredients": [
+        {
+          "nameEs": "Lentejas",
+          "nameEn": "lentils",
+          "category": "legume",
+          "quantity": 300,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 1
+        },
+        {
+          "nameEs": "patata",
+          "nameEn": "potato",
+          "category": "carb",
+          "quantity": 2,
+          "unit": "unidad",
+          "note": "medianas",
+          "sortOrder": 2
+        },
+        {
+          "nameEs": "zanahoria",
+          "nameEn": "carrot",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 3
+        },
+        {
+          "nameEs": "cebolla",
+          "nameEn": "onion",
+          "category": "vegetable",
+          "quantity": 1,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 4
+        },
+        {
+          "nameEs": "tomate",
+          "nameEn": "tomato",
+          "category": "vegetable",
+          "quantity": 2,
+          "unit": "unidad",
+          "note": null,
+          "sortOrder": 5
+        },
+        {
+          "nameEs": "ajo",
+          "nameEn": "garlic",
+          "category": "vegetable",
+          "quantity": 5,
+          "unit": "g",
+          "note": null,
+          "sortOrder": 6
+        },
+        {
+          "nameEs": "caldo de verduras",
+          "nameEn": "vegetable stock",
+          "category": "other",
+          "quantity": 1000,
+          "unit": "ml",
+          "note": null,
+          "sortOrder": 7
+        },
+        {
+          "nameEs": "comino",
+          "nameEn": "ground cumin",
+          "category": "spice",
+          "quantity": 1,
+          "unit": "cucharadita",
+          "note": null,
+          "sortOrder": 8
+        },
+        {
+          "nameEs": "sal",
+          "nameEn": "salt",
+          "category": "spice",
+          "quantity": null,
+          "unit": null,
+          "note": "al gusto",
+          "sortOrder": 9
+        }
+      ]
+    }
+  ]
+}
